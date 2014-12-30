@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="72dp"
+    android:orientation="vertical"
+    android:paddingTop="10dp"
+    android:paddingStart="16dp"
+    android:paddingLeft="16dp"
+    android:paddingBottom="16dp"
+    android:background="@color/white">
+    <TextView
+        android:id="@+id/detail_item"
+        android:textColor="@color/blackText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:text="Evento: "/>
+    <TextView
+        android:id="@+id/detail_value"
+        android:textColor="@color/grayText"
+        android:textSize="16sp"
+        android:layout_gravity="bottom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Muse en el Gran Rex"/>
+</LinearLayout>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/chat_list_selector">
+    <LinearLayout
+        android:paddingLeft="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        >
+        <ImageView
+            android:id="@+id/drawer_image"
+            android:layout_gravity="center"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/ic_launcher"/>
+        <TextView
+            android:id="@+id/drawer_name"
+            android:layout_marginLeft="40dp"
+            android:textSize="15sp"
+            android:layout_gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/blackText"
+            android:text="Total Balance"/>
+    </LinearLayout>
+
+</LinearLayout>

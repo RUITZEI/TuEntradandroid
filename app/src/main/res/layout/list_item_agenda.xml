@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:background="@drawable/chat_list_selector"
+    android:layout_height="72dp">
+    <LinearLayout
+        android:layout_width="72dp"
+        android:layout_height="match_parent"
+        android:padding="16dp">
+        <com.pkmmte.view.CircularImageView
+            android:id="@+id/foto"
+            android:layout_gravity="center"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_launcher"
+             />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+            android:paddingEnd="16dp"
+            android:paddingRight="16dp"
+            android:textSize="16sp"
+            android:maxWidth="280dp"
+            android:maxLines="1"
+            android:ellipsize="marquee"
+            android:paddingTop="16dp"
+            android:id="@+id/nombre"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/blackText"
+            android:text="Nombre del evento"/>
+        <TextView
+            android:textSize="14sp"
+            android:id="@+id/ciudad"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/grayText"
+            android:layout_below="@+id/nombre"
+            android:text="Ciudad del evento?"/>
+
+        <TextView
+            android:id="@+id/fecha"
+            android:paddingRight="16dp"
+            android:paddingEnd="16dp"
+            android:layout_alignBaseline="@+id/ciudad"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/grayText"
+            android:layout_below="@+id/nombre"
+            android:textSize="12sp"
+            android:text="Esto seria la fecha"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/lightGray"
+            android:layout_alignParentBottom="true"/>
+        </RelativeLayout>
+</LinearLayout>

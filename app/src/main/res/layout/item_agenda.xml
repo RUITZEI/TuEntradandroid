@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:baselineAligned="false"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <RelativeLayout
+        android:orientation="vertical"
+        android:layout_width="0dp"
+        android:layout_height="100dp"
+        android:layout_weight="2">
+
+        <ImageView
+            android:padding="15dp"
+            android:id="@+id/item_foto"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_launcher"/>
+
+        <ImageView
+            android:padding="15dp"
+            android:id="@+id/degrade"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitEnd"
+            android:src="@drawable/degrade"/>
+
+        <ImageView
+            android:id="@+id/disponibilidad"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:paddingTop="4dp"
+            android:paddingBottom="6dp"
+            android:paddingRight="8dp"
+             />
+
+        <TextView
+            android:padding="15dp"
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:textSize="14sp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_toLeftOf="@+id/disponibilidad"
+            android:textColor="@color/material_blue"
+            android:paddingRight="8dp"
+            android:paddingBottom="4dp"
+            android:text="Disp:"
+            />
+
+    </RelativeLayout>
+    <RelativeLayout
+        android:orientation="vertical"
+        android:layout_width="0dp"
+        android:layout_height="100dp"
+        android:layout_weight="5"
+        android:paddingLeft="8dp">
+        <TextView
+            android:id="@+id/item_fecha"
+            android:textSize="14sp"
+            android:textStyle="italic"
+            android:textColor="@color/black"
+            android:text="25 de Mayo del 2003"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            />
+
+        <TextView
+            android:id="@+id/item_nombre"
+            android:textSize="17sp"
+            android:textStyle="bold"
+            android:textColor="@color/blackText"
+            android:text="Nombre"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_below="@+id/item_fecha">
+        </TextView>
+
+        <TextView
+            android:id="@+id/item_tipo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/item_nombre"
+            android:text="Descripcion"
+            android:textColor="@color/material_blue"
+            android:textSize="14sp" />
+    </RelativeLayout>
+</LinearLayout>
