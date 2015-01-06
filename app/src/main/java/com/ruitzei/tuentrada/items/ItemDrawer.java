@@ -1,4 +1,6 @@
-package com.ruitzei.tuentrada;
+package com.ruitzei.tuentrada.items;
+
+import com.ruitzei.tuentrada.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,21 +28,21 @@ public class ItemDrawer {
 
     public static List<ItemDrawer> getTestingList(){
 
-        List<ItemDrawer> listOfPersons = new ArrayList<ItemDrawer>();
+        List<ItemDrawer> darwerList = new ArrayList<ItemDrawer>();
 
         String aux1 = "drawable://" + R.drawable.ic_launcher;
         String aux2 = "drawable://" + R.drawable.ic_launcher;
         String aux3 = "drawable://" + R.drawable.ic_launcher;
 
-        listOfPersons.add(new ItemDrawer("Novedades", aux1));
-        listOfPersons.add(new ItemDrawer("Conciertos", aux1));
-        listOfPersons.add(new ItemDrawer("Deportes", aux2));
-        listOfPersons.add(new ItemDrawer("Familia", aux3));
-        listOfPersons.add(new ItemDrawer("Teatro", aux3));
-        listOfPersons.add(new ItemDrawer("Exposiciones", aux3));
+        darwerList.add(new ItemDrawer("Novedades", aux1));
+        darwerList.add(new ItemDrawer("Conciertos", aux1));
+        darwerList.add(new ItemDrawer("Deportes", aux2));
+        darwerList.add(new ItemDrawer("Familia", aux3));
+        darwerList.add(new ItemDrawer("Teatro", aux3));
+        darwerList.add(new ItemDrawer("Exposiciones", aux3));
 
 
-        return listOfPersons;
+        return darwerList;
     }
 
 }

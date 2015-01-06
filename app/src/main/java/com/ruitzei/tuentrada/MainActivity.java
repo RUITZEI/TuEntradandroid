@@ -1,11 +1,8 @@
 package com.ruitzei.tuentrada;
 
-import android.app.Activity;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
@@ -25,14 +22,16 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.utils.StorageUtils;
+import com.ruitzei.tuentrada.adapters.DrawerAdapter;
+import com.ruitzei.tuentrada.fragments.FragmentAgenda;
+import com.ruitzei.tuentrada.items.ItemAgenda;
+import com.ruitzei.tuentrada.items.ItemDrawer;
 
 import java.io.File;
 import java.util.List;
 
 
 public class MainActivity extends ActionBarActivity {
-
-
     public ActionBarDrawerToggle mDrawerToggle;
     private ListView mDrawerList;
     private DrawerLayout mDrawerLayout;
@@ -58,9 +57,7 @@ public class MainActivity extends ActionBarActivity {
 
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        //mDrawerLayout.setStatusBarBackground(R.color.darkerGray);
         mDrawerList = (ListView) findViewById(R.id.drawer_list);
-
 
         if( Build.VERSION.SDK_INT >= 21 ) {
             //getActionBar().setIcon(R.drawable.ic_launcher);
@@ -177,7 +174,7 @@ public class MainActivity extends ActionBarActivity {
         if (id == android.R.id.home){
             Log.d("Back button", "Back button pressed, go back");
             //hideSoftKeyboard();
-            super.onBackPressed();
+            onBackPressed();
         }
 
         return super.onOptionsItemSelected(item);

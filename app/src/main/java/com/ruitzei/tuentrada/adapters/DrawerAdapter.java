@@ -1,4 +1,4 @@
-package com.ruitzei.tuentrada;
+package com.ruitzei.tuentrada.adapters;
 
 import android.content.Context;
 import android.view.View;
@@ -8,6 +8,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.ruitzei.tuentrada.items.ItemDrawer;
+import com.ruitzei.tuentrada.R;
 
 import java.util.List;
 

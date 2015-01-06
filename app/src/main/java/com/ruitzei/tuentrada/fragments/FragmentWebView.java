@@ -1,4 +1,4 @@
-package com.ruitzei.tuentrada;
+package com.ruitzei.tuentrada.fragments;
 
 import android.content.ClipData;
 import android.content.ClipboardManager;
@@ -23,10 +23,13 @@ import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.ruitzei.tuentrada.MainActivity;
+import com.ruitzei.tuentrada.R;
+
 /**
  * Created by RUITZEI on 25/12/2014.
  */
-public class FragmentWebview extends Fragment{
+public class FragmentWebView extends Fragment{
     private static final String TAG = "Webview Fragment";
     private WebView web;
     private MainActivity actividadPrincipal;

@@ -1,4 +1,4 @@
-package com.ruitzei.tuentrada;
+package com.ruitzei.tuentrada.adapters;
 
 import android.content.Context;
 import android.view.View;
@@ -11,7 +11,8 @@ import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.pkmmte.view.CircularImageView;
+import com.ruitzei.tuentrada.items.ItemAgenda;
+import com.ruitzei.tuentrada.R;
 
 import java.util.ArrayList;
 import java.util.List;

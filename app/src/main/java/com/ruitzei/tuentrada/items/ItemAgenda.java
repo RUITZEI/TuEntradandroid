@@ -1,4 +1,4 @@
-package com.ruitzei.tuentrada;
+package com.ruitzei.tuentrada.items;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

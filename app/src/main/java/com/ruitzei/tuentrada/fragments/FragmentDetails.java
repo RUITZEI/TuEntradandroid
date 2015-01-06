@@ -1,8 +1,6 @@
-package com.ruitzei.tuentrada;
+package com.ruitzei.tuentrada.fragments;
 
-import android.app.Activity;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -25,14 +23,14 @@ import com.manuelpeinado.fadingactionbar.view.ObservableScrollable;
 import com.manuelpeinado.fadingactionbar.view.OnScrollChangedCallback;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
+import com.ruitzei.tuentrada.MainActivity;
+import com.ruitzei.tuentrada.R;
 import com.shamanland.fab.FloatingActionButton;
-
-import org.w3c.dom.Text;
 
 /**
  * Created by RUITZEI on 21/12/2014.
  */
-public class FragmentWeb extends Fragment implements OnScrollChangedCallback{
+public class FragmentDetails extends Fragment implements OnScrollChangedCallback{
     private Toolbar mToolbar;
     private Drawable mActionBarBackgroundDrawable;
     private ImageView mHeader;
@@ -53,12 +51,9 @@ public class FragmentWeb extends Fragment implements OnScrollChangedCallback{
     private TextView detailVenue;
     private TextView detailMin;
 
-
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        rootView = inflater.inflate(R.layout.activity_scrollview, container, false);
+        rootView = inflater.inflate(R.layout.fragment_details, container, false);
         actividadPrincipal = ((MainActivity)getActivity());
 
         mToolbar = ((MainActivity)getActivity()).getmToolBar();
@@ -85,10 +80,11 @@ public class FragmentWeb extends Fragment implements OnScrollChangedCallback{
             public void onClick(View v) {
                 Bundle args = new Bundle();
                 args.putString("link", getArguments().getString("link"));
-                Fragment fragment = new FragmentWebview();
+                Fragment fragment = new FragmentWebView();
                 fragment.setArguments(args);
                 FragmentManager fm = actividadPrincipal.getSupportFragmentManager();
                 fm.beginTransaction()
+                        .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right)
                         .replace(R.id.container, fragment)
                         .addToBackStack("Fragback")
                         .commit();
@@ -100,13 +96,6 @@ public class FragmentWeb extends Fragment implements OnScrollChangedCallback{
 
         onScroll(-1, 0);
 
-
-
-        //String link = getArguments().getString("nombre");
-        //String link = getArguments().getString("fecha");
-        //String link = getArguments().getString("venue_name");
-        //String link = getArguments().getString("seats_from");
-        //String link = getArguments().getString("ciudad");
         String link = getArguments().getString("image");
         //actividadPrincipal.getImageLoader().displayImage(link, mHeader);
         //mHeader.setImageBitmap(blurBitmap(BitmapFactory.decodeResource(getActivity().getResources(),R.drawable.ic_launcher)));
@@ -132,12 +121,7 @@ public class FragmentWeb extends Fragment implements OnScrollChangedCallback{
         link = getArguments().getString("ciudad");
         this.detailCity.setText(link);
 
-        //TODO: Crear la lista y mostrar todo lo que tenga que mostrar.
-        //TODO: FAB en lugar del boton?
-
-
         setHasOptionsMenu(true);
-
 
         return rootView;
     }
@@ -185,7 +169,7 @@ public class FragmentWeb extends Fragment implements OnScrollChangedCallback{
         super.onResume();
         actividadPrincipal.mDrawerToggle.setDrawerIndicatorEnabled(false);
         actividadPrincipal.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        actividadPrincipal.getSupportActionBar().setTitle("Nombre del evento");
+        actividadPrincipal.getSupportActionBar().setTitle("  TuEntrada");
         actividadPrincipal.getSupportActionBar().setHomeButtonEnabled(true);
     }
 

@@ -1,14 +1,12 @@
-package com.ruitzei.tuentrada;
+package com.ruitzei.tuentrada.fragments;
 
 import android.app.ProgressDialog;
 import android.app.SearchManager;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v7.app.ActionBar;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,9 +16,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import com.ruitzei.tuentrada.MainActivity;
+import com.ruitzei.tuentrada.R;
+import com.ruitzei.tuentrada.model.TuEntradaParser;
+import com.ruitzei.tuentrada.adapters.CustomListAdapter;
 
 import org.xmlpull.v1.XmlPullParserException;
 
@@ -189,10 +191,11 @@ public class FragmentAgenda extends Fragment{
                     args.putString("series_name", adapterNoticias.getItem(position).getSeriesName());
 
 
-                    Fragment fragment = new FragmentWeb();
+                    Fragment fragment = new FragmentDetails();
                     fragment.setArguments(args);
                     FragmentManager fm = actividadPrincipal.getSupportFragmentManager();
                     fm.beginTransaction()
+                            .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right)
                             .replace(R.id.container, fragment)
                             .addToBackStack("Fragback")
                             .commit();

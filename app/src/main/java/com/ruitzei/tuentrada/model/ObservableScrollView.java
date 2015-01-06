@@ -1,4 +1,4 @@
-package com.ruitzei.tuentrada;
+package com.ruitzei.tuentrada.model;
 
 import android.content.Context;
 import android.os.Build;

@@ -1,6 +1,8 @@
-package com.ruitzei.tuentrada;
+package com.ruitzei.tuentrada.model;
 
 import android.util.Xml;
+
+import com.ruitzei.tuentrada.items.ItemAgenda;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
