@@ -155,7 +155,7 @@ public class FragmentWeb extends Fragment implements OnScrollChangedCallback{
     }
 
     private void updateActionBarTransparency(float scrollRatio) {
-        int newAlpha = (int) (scrollRatio * 255 + 30);
+        int newAlpha = (int) (scrollRatio * 255 + 55);
         mActionBarBackgroundDrawable.setAlpha(newAlpha);
         mToolbar.setBackground(mActionBarBackgroundDrawable);
     }
