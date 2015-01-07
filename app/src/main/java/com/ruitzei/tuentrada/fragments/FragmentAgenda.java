@@ -1,9 +1,7 @@
 package com.ruitzei.tuentrada.fragments;
 
-import android.app.ProgressDialog;
 import android.app.SearchManager;
 import android.content.Context;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -22,22 +20,18 @@ import android.widget.Toast;
 
 import com.ruitzei.tuentrada.MainActivity;
 import com.ruitzei.tuentrada.R;
-import com.ruitzei.tuentrada.model.TuEntradaParser;
+import com.ruitzei.tuentrada.items.ItemAgenda;
+import com.ruitzei.tuentrada.model.DescargarAgenda;
+import com.ruitzei.tuentrada.model.OnDownloadCompleted;
 import com.ruitzei.tuentrada.adapters.CustomListAdapter;
 
-import org.xmlpull.v1.XmlPullParserException;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.text.ParseException;
+import java.util.List;
 
 /**
  * Created by RUITZEI on 18/12/2014.
  */
 
-public class FragmentAgenda extends Fragment implements SwipeRefreshLayout.OnRefreshListener{
+public class FragmentAgenda extends Fragment implements SwipeRefreshLayout.OnRefreshListener, OnDownloadCompleted {
 
     private static final String TAG = "Fragment Agenda";
     private CustomListAdapter adapterNoticias;
@@ -69,7 +63,8 @@ public class FragmentAgenda extends Fragment implements SwipeRefreshLayout.OnRef
         if (actividadPrincipal.existeAgenda()){
             mostrarLista();
         }else{
-            new DescargarYMostrar().execute(RSS_TUENTRADA);
+            mSpinner.setVisibility(View.VISIBLE);
+            new DescargarAgenda(this).execute(RSS_TUENTRADA);
         }
 
         agregarListenerLista();
@@ -83,84 +78,6 @@ public class FragmentAgenda extends Fragment implements SwipeRefreshLayout.OnRef
         lista.setAdapter(adapterNoticias);
 
         agregarListenerLista();
-    }
-
-
-    // Descarga del archivo en un hilo separado para no tildar la interfaz de usuario.
-    private class DescargarYMostrar extends AsyncTask<String, Void, String> {
-        private ProgressDialog asycdialog = new ProgressDialog(getActivity());
-
-        public DescargarYMostrar(){
-
-        }
-
-        @Override
-        protected void onPreExecute(){
-            //Let the Spinner start rolling.
-            mSpinner.setVisibility(View.VISIBLE);
-
-        }
-
-        @Override
-        protected String doInBackground(String... urls) {
-            while (!isCancelled()){
-                try {
-                    return loadXmlFromNetwork(urls[0]);
-                } catch (IOException e) {
-                    return "Error de conexion";
-                } catch (XmlPullParserException e) {
-                    return "Error del link!";
-                } catch (ParseException e) {
-                    return "Error del parse Date";
-                }
-            }
-            return "asd";
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            if (result.equalsIgnoreCase("success")){
-                //Toast.makeText(getActivity(), "Descarga correcta", Toast.LENGTH_LONG).show();
-                mostrarLista();
-            } else {
-                //Toast.makeText(getActivity(), R.string.msg_nointernet_agenda, Toast.LENGTH_LONG).show();
-                Toast.makeText(getActivity(), "No internet", Toast.LENGTH_LONG).show();
-            }
-            if (mRefreshLayout.isRefreshing()) mRefreshLayout.setRefreshing(false);
-            mSpinner.setVisibility(View.GONE);
-        }
-    }
-
-    private String loadXmlFromNetwork(String urlString) throws XmlPullParserException, IOException, ParseException {
-        InputStream stream = null;
-        TuEntradaParser oleParser = new TuEntradaParser();
-        try {
-            stream = downloadUrl(urlString);
-            Log.d("Parse", "Antes del Parse.");
-            //Le paso al PARSER el archivo XML para que haga lo suyo.
-            actividadPrincipal.setAgenda(oleParser.parse(stream));
-            Log.d("Parse","Despues del parse");
-        } finally {
-            if (stream != null) {
-                stream.close();
-            }
-        }
-        return "Success";
-    }
-
-    private InputStream downloadUrl(String urlString) throws IOException {
-        URL url = new URL(urlString);
-        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-        conn.setReadTimeout(200000 /* milliseconds*/ );
-        conn.setConnectTimeout(250000 /* milliseconds */);
-        conn.setRequestMethod("GET");
-        conn.setDoInput(true);
-
-        // Comienza la descarga.
-        conn.connect();
-        InputStream stream = conn.getInputStream();
-        Log.d("Parse","Se completo la descarga.");
-        return stream;
     }
 
 
@@ -205,18 +122,6 @@ public class FragmentAgenda extends Fragment implements SwipeRefreshLayout.OnRef
                             .replace(R.id.container, fragment)
                             .addToBackStack("Fragback")
                             .commit();
-                    /*Bundle args = new Bundle();
-                    args.putString("link", COMPRA_COLON+adapterNoticias.getItem(position).getLink());
-                    Fragment fragment = new FragmentWeb();
-                    fragment.setArguments(args);
-                    MenuItemCompat.collapseActionView(searchItem);
-
-                    Log.d("Agenda","Se clickeo el elemento Nº "+ position );
-                    FragmentManager fragmentManager = actividadPrincipal.getSupportFragmentManager();
-                    fragmentManager.beginTransaction()
-                            .replace(R.id.container, fragment)
-                            .addToBackStack("FragBack")
-                            .commit();*/
                 }else if (!tieneAsientosDisponibles){
                     //Toast.makeText(getActivity(), R.string.msg_no_seats_available, Toast.LENGTH_LONG).show();
                     Toast.makeText(getActivity(), "No Asientos Disponibles", Toast.LENGTH_LONG).show();
@@ -261,14 +166,32 @@ public class FragmentAgenda extends Fragment implements SwipeRefreshLayout.OnRef
 
     @Override
     public void onRefresh(){
-        Log.d(TAG, "Pulled to refresh ");
+        Log.d(TAG, "Refreshing...");
         if (!actividadPrincipal.existeAgenda()){
-            Log.d(TAG, "Pulled to refresh & no agenda");
-            new DescargarYMostrar().execute(RSS_TUENTRADA);
+            new DescargarAgenda(this).execute(RSS_TUENTRADA);
         }else{
-            Log.d(TAG, "Pulled to refresh & yes agenda");
+            Log.d(TAG, "Ya exisita la agenda...");
             mRefreshLayout.setRefreshing(false);
         }
+    }
+
+    /*
+    Metodos de la descarga del XML de TuEntrada
+     */
+    @Override
+    public void onDownloadSucceed(List<ItemAgenda> agenda){
+        actividadPrincipal.setAgenda(agenda);
+        mostrarLista();
+        mSpinner.setVisibility(View.GONE);
+        if (mRefreshLayout.isRefreshing()) mRefreshLayout.setRefreshing(false);
+    }
+
+    @Override
+    public void onDownloadFailed(){
+        mSpinner.setVisibility(View.GONE);
+        if (mRefreshLayout.isRefreshing()) mRefreshLayout.setRefreshing(false);
+
+        //TODO Should probably add a view to let the user know smth happened.
     }
 
     @Override
