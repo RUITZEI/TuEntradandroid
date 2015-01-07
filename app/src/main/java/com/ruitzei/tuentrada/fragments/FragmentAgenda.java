@@ -7,6 +7,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -36,7 +37,7 @@ import java.text.ParseException;
  * Created by RUITZEI on 18/12/2014.
  */
 
-public class FragmentAgenda extends Fragment{
+public class FragmentAgenda extends Fragment implements SwipeRefreshLayout.OnRefreshListener{
 
     private static final String TAG = "Fragment Agenda";
     private CustomListAdapter adapterNoticias;
@@ -48,6 +49,7 @@ public class FragmentAgenda extends Fragment{
     private String[] itemsSpinner;
     private SearchView mSearchView;
     private View mSpinner;
+    private SwipeRefreshLayout mRefreshLayout;
 
     private static final String RSS_TUENTRADA = "https://www.tuentrada.com/online/feedxml.asp";
 
@@ -58,6 +60,9 @@ public class FragmentAgenda extends Fragment{
         this.actividadPrincipal = ((MainActivity)getActivity());
         this.lista = (ListView)view.findViewById(android.R.id.list);
         this.mSpinner = view.findViewById(R.id.loadingPanel);
+        this.mRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_container);
+        this.mRefreshLayout.setOnRefreshListener(this);
+        this.mRefreshLayout.setColorSchemeColors(R.color.material_blue, R.color.TuEntradaMain, R.color.darkerRed, R.color.material_deep_teal_200);
 
         setHasOptionsMenu(true);
 
@@ -121,6 +126,7 @@ public class FragmentAgenda extends Fragment{
                 //Toast.makeText(getActivity(), R.string.msg_nointernet_agenda, Toast.LENGTH_LONG).show();
                 Toast.makeText(getActivity(), "No internet", Toast.LENGTH_LONG).show();
             }
+            if (mRefreshLayout.isRefreshing()) mRefreshLayout.setRefreshing(false);
             mSpinner.setVisibility(View.GONE);
         }
     }
@@ -251,6 +257,18 @@ public class FragmentAgenda extends Fragment{
                 return super.onOptionsItemSelected(item);
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onRefresh(){
+        Log.d(TAG, "Pulled to refresh ");
+        if (!actividadPrincipal.existeAgenda()){
+            Log.d(TAG, "Pulled to refresh & no agenda");
+            new DescargarYMostrar().execute(RSS_TUENTRADA);
+        }else{
+            Log.d(TAG, "Pulled to refresh & yes agenda");
+            mRefreshLayout.setRefreshing(false);
+        }
     }
 
     @Override

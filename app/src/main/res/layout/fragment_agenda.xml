@@ -4,15 +4,21 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/white">
-    <ListView
+    <android.support.v4.widget.SwipeRefreshLayout
         android:layout_marginTop="?actionBarSize"
-        android:layout_width="match_parent"
+        android:id="@+id/swipe_container"
         android:layout_height="match_parent"
-        android:dividerHeight="0dp"
-        android:divider="@null"
-        android:id="@android:id/list"
-        android:cacheColorHint="#0b0c0d">
-    </ListView>
+        android:layout_width="match_parent">
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:dividerHeight="0dp"
+            android:divider="@null"
+            android:id="@android:id/list"
+            android:cacheColorHint="#0b0c0d">
+        </ListView>
+    </android.support.v4.widget.SwipeRefreshLayout>
+
     <RelativeLayout
         android:id="@+id/loadingPanel"
         android:layout_width="match_parent"
@@ -24,5 +30,4 @@
             android:layout_height="wrap_content"
             android:indeterminate="true"/>
     </RelativeLayout>
-
 </FrameLayout>
