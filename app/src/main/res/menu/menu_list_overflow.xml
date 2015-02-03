@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<menu
+	xmlns:android="http://schemas.android.com/apk/res/android" >
+	<item
+		android:id="@+id/album_overflow_rename"
+		android:title="Comprar entradas" />
+		
+	<item
+		android:id="@+id/album_overflow_lock"
+		android:title="Ver detalles" />
+		
+	<item
+		android:id="@+id/album_overflow_unlock"
+		android:title="Agendar" />
+
+</menu>
