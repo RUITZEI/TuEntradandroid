@@ -1,5 +1,7 @@
 package com.ruitzei.tuentrada.items;
 
+import android.util.Log;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -146,5 +148,28 @@ public class ItemAgenda {
             e.printStackTrace();
         }
         return fecha;
+    }
+
+    public int getDiaEvento(){
+        String fecha = getFechaConvertida();
+        String dia = fecha.substring(0,2);
+        Log.d("Dia", dia);
+        return Integer.parseInt(dia);
+    }
+
+    public int getMesEvento(){
+        String fecha = getFechaConvertida();
+        String mes = fecha.substring(fecha.indexOf("/")+1, fecha.lastIndexOf("/"));
+        Log.d("Mes", mes);
+
+        return Integer.parseInt (mes);
+    }
+
+    public int getAnioEvento(){
+        String fecha = getFechaConvertida();
+        String anio = fecha.substring(fecha.lastIndexOf("/")+1, fecha.length()-1);
+        Log.d("Anio", anio);
+
+        return 2000 + Integer.parseInt(anio);
     }
 }

@@ -173,6 +173,10 @@ public class FragmentAgenda extends Fragment implements SwipeRefreshLayout.OnRef
         boolean puedenComprar = (adapterNoticias.getItem(position).getFechaDeVenta().length() == 0);
 
         if (tieneAsientosDisponibles && puedenComprar){
+            adapterNoticias.getItem(position).getDiaEvento();
+            adapterNoticias.getItem(position).getMesEvento();
+            adapterNoticias.getItem(position).getAnioEvento();
+
             Log.d("Item Clicked", adapterNoticias.getItem(position).getLink());
 
                     /*
@@ -232,24 +236,29 @@ public class FragmentAgenda extends Fragment implements SwipeRefreshLayout.OnRef
         long startMillis = 0;
         long endMillis = 0;
 
+        ItemAgenda item = adapterNoticias.getItem(position);
+
         Calendar beginCal = Calendar.getInstance();
-        beginCal.set(2015, 2, 18, 18, 00);
+        beginCal.set(item.getAnioEvento(),
+                     item.getMesEvento()-1,
+                     item.getDiaEvento());
         startMillis = beginCal.getTimeInMillis();
 
-        Calendar endCal = Calendar.getInstance();
-        endCal.set(2015, 2, 18, 23, 59);
-        endMillis = endCal.getTimeInMillis();
+//        Calendar endCal = Calendar.getInstance();
+//        endCal.set(2015, 2, 18, 23, 59);
+//        endMillis = endCal.getTimeInMillis();
 
         Intent intent = new Intent(Intent.ACTION_EDIT);
         intent.setType("vnd.android.cursor.item/event");
-        intent.putExtra(CalendarContract.Events.TITLE, "Test");
-        intent.putExtra(CalendarContract.Events.DESCRIPTION, "Test");
-        intent.putExtra(CalendarContract.Events.EVENT_LOCATION, "");
+        intent.putExtra(CalendarContract.Events.TITLE, item.getNombre());
+        intent.putExtra(CalendarContract.Events.DESCRIPTION, item.getSeriesName());
+        intent.putExtra(CalendarContract.Events.EVENT_LOCATION, item.getNombreVenue());
         intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, beginCal.getTimeInMillis());
-        intent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME, endCal.getTimeInMillis());
+//        intent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME, endCal.getTimeInMillis());
+        intent.putExtra(CalendarContract.Events.ALL_DAY, true);
         intent.putExtra(CalendarContract.Events.STATUS, 1);
         intent.putExtra(CalendarContract.Events.VISIBLE, 0);
-        intent.putExtra(CalendarContract.Events.HAS_ALARM, 0);
+        intent.putExtra(CalendarContract.Events.HAS_ALARM, false);
         startActivity(intent);
     }
 
