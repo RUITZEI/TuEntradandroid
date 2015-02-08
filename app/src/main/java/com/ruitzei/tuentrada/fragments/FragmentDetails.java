@@ -169,8 +169,8 @@ public class FragmentDetails extends Fragment implements OnScrollChangedCallback
         super.onResume();
         actividadPrincipal.mDrawerToggle.setDrawerIndicatorEnabled(false);
         actividadPrincipal.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        actividadPrincipal.getSupportActionBar().setTitle("  TuEntrada");
         actividadPrincipal.getSupportActionBar().setHomeButtonEnabled(true);
+        actividadPrincipal.getSupportActionBar().setTitle("  TuEntrada");
     }
 
     @Override

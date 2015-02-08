@@ -11,8 +11,10 @@ import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.ruitzei.tuentrada.fragments.FragmentAgenda;
 import com.ruitzei.tuentrada.items.ItemAgenda;
 import com.ruitzei.tuentrada.R;
+import com.ruitzei.tuentrada.model.OnAgendaOverflowItemSelectedListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,15 +28,17 @@ public class CustomListAdapter extends ArrayAdapter<Object> implements Filterabl
     private ImageLoader mImageLoader;
     private DisplayImageOptions mEventPhotoOptions;
     private List<ItemAgenda> agendaFiltrada;
+    private FragmentAgenda fragment;
 
 
-    public CustomListAdapter(Context contexto, List<ItemAgenda> agenda, ImageLoader imageLoader, DisplayImageOptions imageOptions){
+    public CustomListAdapter(Context contexto, List<ItemAgenda> agenda, ImageLoader imageLoader, DisplayImageOptions imageOptions, FragmentAgenda fragment){
         super(contexto, R.layout.list_item_agenda);
         this.contexto = contexto;
         this.agenda  = agenda;
         this.agendaFiltrada = this.agenda;
         this.mImageLoader = imageLoader;
         this.mEventPhotoOptions = imageOptions;
+        this.fragment = fragment;
     }
 
 
@@ -53,6 +57,7 @@ public class CustomListAdapter extends ArrayAdapter<Object> implements Filterabl
         TextView nombre;
         TextView fecha;
         ImageView foto;
+        View overflowIcon;
 
 
         public static PlaceHolder generate (View convertView){
@@ -62,6 +67,8 @@ public class CustomListAdapter extends ArrayAdapter<Object> implements Filterabl
             placeHolder.ciudad = (TextView)convertView.findViewById(R.id.ciudad);
             placeHolder.fecha = (TextView)convertView.findViewById(R.id.fecha);
             placeHolder.foto = (ImageView)convertView.findViewById(R.id.foto);
+            placeHolder.overflowIcon = convertView.findViewById(R.id.agenda_overflow);
+
 
             return placeHolder;
         }
@@ -86,6 +93,7 @@ public class CustomListAdapter extends ArrayAdapter<Object> implements Filterabl
         placeHolder.ciudad.setText(agendaFiltrada.get(position).getCiudad());
         placeHolder.nombre.setText(agendaFiltrada.get(position).getNombre());
         placeHolder.fecha.setText(agendaFiltrada.get(position).getFechaConvertida());
+        placeHolder.overflowIcon.setOnClickListener(new OnAgendaOverflowItemSelectedListener(contexto, fragment, position));
 
         String tipo = agendaFiltrada.get(position).getNombre().toLowerCase();
         setFoto(placeHolder, agendaFiltrada.get(position).getLogoId(), tipo);

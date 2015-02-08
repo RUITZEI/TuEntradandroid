@@ -44,8 +44,9 @@
             android:text="Ciudad del evento?"/>
 
         <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:id="@+id/agenda_overflow"
+            android:layout_width="15dp"
+            android:layout_height="wrap_content"
             android:layout_alignTop="@+id/nombre"
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="16dp"

@@ -2,7 +2,9 @@ package com.ruitzei.tuentrada.fragments;
 
 import android.app.SearchManager;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.provider.CalendarContract;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -25,6 +27,7 @@ import com.ruitzei.tuentrada.model.DescargarAgenda;
 import com.ruitzei.tuentrada.model.OnDownloadCompleted;
 import com.ruitzei.tuentrada.adapters.CustomListAdapter;
 
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -74,7 +77,7 @@ public class FragmentAgenda extends Fragment implements SwipeRefreshLayout.OnRef
 
 
     public void mostrarLista(){
-        adapterNoticias = new CustomListAdapter(getActivity().getApplicationContext(),actividadPrincipal.getAgenda(), actividadPrincipal.getImageLoader(), actividadPrincipal.getEventPhotoOptions());
+        adapterNoticias = new CustomListAdapter(getActivity().getApplicationContext(),actividadPrincipal.getAgenda(), actividadPrincipal.getImageLoader(), actividadPrincipal.getEventPhotoOptions(),this);
         lista.setAdapter(adapterNoticias);
 
         agregarListenerLista();
@@ -89,47 +92,7 @@ public class FragmentAgenda extends Fragment implements SwipeRefreshLayout.OnRef
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
-
-                boolean tieneAsientosDisponibles = adapterNoticias.getItem(position).getDisponibilidad() != 'S';
-                //No se puede comprar si los tickets toadvia no salieron a la venta
-                boolean puedenComprar = (adapterNoticias.getItem(position).getFechaDeVenta().length() == 0);
-
-                if (tieneAsientosDisponibles && puedenComprar){
-                    Log.d("Item Clicked", adapterNoticias.getItem(position).getLink());
-
-                    /*
-                    Preparando el Bundle para mandarle al siguiente Fragment.
-                     */
-
-                    String link = adapterNoticias.getItem(position).getLink();
-                    String linkMobile = link.substring(0, link.indexOf("seat")) + "mobile/" + link.substring(link.indexOf("seat"), link.length());
-                    Bundle args = new Bundle();
-                    args.putString("link", linkMobile);
-                    args.putString("image", adapterNoticias.getItem(position).getLogoId());
-                    args.putString("nombre", adapterNoticias.getItem(position).getNombre());
-                    args.putString("fecha", adapterNoticias.getItem(position).getFechaConvertida());
-                    args.putString("venue_name", adapterNoticias.getItem(position).getNombreVenue());
-                    args.putString("seats_from", adapterNoticias.getItem(position).getAsientosDesde());
-                    args.putString("ciudad", adapterNoticias.getItem(position).getCiudad());
-                    args.putString("series_name", adapterNoticias.getItem(position).getSeriesName());
-
-
-                    Fragment fragment = new FragmentDetails();
-                    fragment.setArguments(args);
-                    FragmentManager fm = actividadPrincipal.getSupportFragmentManager();
-                    fm.beginTransaction()
-                            .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right)
-                            .replace(R.id.container, fragment)
-                            .addToBackStack("Fragback")
-                            .commit();
-                }else if (!tieneAsientosDisponibles){
-                    //Toast.makeText(getActivity(), R.string.msg_no_seats_available, Toast.LENGTH_LONG).show();
-                    Toast.makeText(getActivity(), "No Asientos Disponibles", Toast.LENGTH_LONG).show();
-                }else if (!puedenComprar){
-                    //String msgNoSeatsYet = getString(R.string.msg_no_seats_on_sale);
-                    //Toast.makeText(getActivity(), msgNoSeatsYet + " " + adapterNoticias.getItem(position).getFechaDeVentaConvertida(), Toast.LENGTH_LONG).show();
-                    Toast.makeText(getActivity(), "no salieron a la venta" + " " + adapterNoticias.getItem(position).getFechaDeVentaConvertida(), Toast.LENGTH_LONG).show();
-                }
+                goToDetails(position);
             }
         });
     }
@@ -202,6 +165,92 @@ public class FragmentAgenda extends Fragment implements SwipeRefreshLayout.OnRef
         actividadPrincipal.getSupportActionBar().setTitle("  TuEntrada");
         actividadPrincipal.getSupportActionBar().setDisplayShowHomeEnabled(true);
         actividadPrincipal.getmToolBar().setBackgroundColor(getResources().getColor(R.color.TuEntradaMain));
+    }
+
+    public void goToDetails(int position){
+        boolean tieneAsientosDisponibles = adapterNoticias.getItem(position).getDisponibilidad() != 'S';
+        //No se puede comprar si los tickets toadvia no salieron a la venta
+        boolean puedenComprar = (adapterNoticias.getItem(position).getFechaDeVenta().length() == 0);
+
+        if (tieneAsientosDisponibles && puedenComprar){
+            Log.d("Item Clicked", adapterNoticias.getItem(position).getLink());
+
+                    /*
+                    Preparando el Bundle para mandarle al siguiente Fragment.
+                     */
+            String link = adapterNoticias.getItem(position).getLink();
+            String linkMobile = link.substring(0, link.indexOf("seat")) + "mobile/" + link.substring(link.indexOf("seat"), link.length());
+
+            Bundle args = new Bundle();
+            args.putString("link", linkMobile);
+            args.putString("image", adapterNoticias.getItem(position).getLogoId());
+            args.putString("nombre", adapterNoticias.getItem(position).getNombre());
+            args.putString("fecha", adapterNoticias.getItem(position).getFechaConvertida());
+            args.putString("venue_name", adapterNoticias.getItem(position).getNombreVenue());
+            args.putString("seats_from", adapterNoticias.getItem(position).getAsientosDesde());
+            args.putString("ciudad", adapterNoticias.getItem(position).getCiudad());
+            args.putString("series_name", adapterNoticias.getItem(position).getSeriesName());
+
+            Fragment fragment = new FragmentDetails();
+            fragment.setArguments(args);
+            FragmentManager fm = actividadPrincipal.getSupportFragmentManager();
+            fm.beginTransaction()
+                    .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right)
+                    .replace(R.id.container, fragment)
+                    .addToBackStack("Fragback")
+                    .commit();
+        }else if (!tieneAsientosDisponibles){
+            //Toast.makeText(getActivity(), R.string.msg_no_seats_available, Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(), "No Asientos Disponibles", Toast.LENGTH_LONG).show();
+        }else if (!puedenComprar){
+            //String msgNoSeatsYet = getString(R.string.msg_no_seats_on_sale);
+            //Toast.makeText(getActivity(), msgNoSeatsYet + " " + adapterNoticias.getItem(position).getFechaDeVentaConvertida(), Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(), "no salieron a la venta" + " " + adapterNoticias.getItem(position).getFechaDeVentaConvertida(), Toast.LENGTH_LONG).show();
+        }
+
+    }
+
+    public void goToBuy(int position){
+        Log.d("FECHA COMUN>" , adapterNoticias.getItem(position).getFecha());
+        Bundle args = new Bundle();
+
+        String link = adapterNoticias.getItem(position).getLink();
+        String linkMobile = link.substring(0, link.indexOf("seat")) + "mobile/" + link.substring(link.indexOf("seat"), link.length());
+
+        args.putString("link", linkMobile);
+        Fragment fragment = new FragmentWebView();
+        fragment.setArguments(args);
+        FragmentManager fm = actividadPrincipal.getSupportFragmentManager();
+        fm.beginTransaction()
+                .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right)
+                .replace(R.id.container, fragment)
+                .addToBackStack("Fragback")
+                .commit();
+    }
+
+    public void addToCalendar(int position){
+        long startMillis = 0;
+        long endMillis = 0;
+
+        Calendar beginCal = Calendar.getInstance();
+        beginCal.set(2015, 2, 18, 18, 00);
+        startMillis = beginCal.getTimeInMillis();
+
+        Calendar endCal = Calendar.getInstance();
+        endCal.set(2015, 2, 18, 23, 59);
+        endMillis = endCal.getTimeInMillis();
+
+        Intent intent = new Intent(Intent.ACTION_EDIT);
+        intent.setType("vnd.android.cursor.item/event");
+        intent.putExtra(CalendarContract.Events.TITLE, "Test");
+        intent.putExtra(CalendarContract.Events.DESCRIPTION, "Test");
+        intent.putExtra(CalendarContract.Events.EVENT_LOCATION, "");
+        intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, beginCal.getTimeInMillis());
+        intent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME, endCal.getTimeInMillis());
+        intent.putExtra(CalendarContract.Events.STATUS, 1);
+        intent.putExtra(CalendarContract.Events.VISIBLE, 0);
+        intent.putExtra(CalendarContract.Events.HAS_ALARM, 0);
+        startActivity(intent);
     }
 
     final SearchView.OnQueryTextListener queryTextListener = new SearchView.OnQueryTextListener() {

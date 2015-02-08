@@ -134,8 +134,9 @@ public class FragmentWebView extends Fragment{
     @Override
     public void onResume(){
         super.onResume();
-        actividadPrincipal.getSupportActionBar().setDisplayShowTitleEnabled(true);
-        actividadPrincipal.getSupportActionBar().setDisplayShowHomeEnabled(false);
+        actividadPrincipal.mDrawerToggle.setDrawerIndicatorEnabled(false);
+        actividadPrincipal.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        actividadPrincipal.getSupportActionBar().setHomeButtonEnabled(true);
         actividadPrincipal.getSupportActionBar().setTitle("Comprar");
         actividadPrincipal.getmToolBar().setBackgroundColor(getResources().getColor(R.color.TuEntradaMain));
     }

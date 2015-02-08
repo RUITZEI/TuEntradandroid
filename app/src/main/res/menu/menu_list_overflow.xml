@@ -2,15 +2,16 @@
 <menu
 	xmlns:android="http://schemas.android.com/apk/res/android" >
 	<item
-		android:id="@+id/album_overflow_rename"
+		android:id="@+id/agenda_overflow_buy"
+        android:icon="@drawable/ic_launcher"
 		android:title="Comprar entradas" />
 		
 	<item
-		android:id="@+id/album_overflow_lock"
+		android:id="@+id/agenda_overflow_details"
 		android:title="Ver detalles" />
 		
 	<item
-		android:id="@+id/album_overflow_unlock"
+		android:id="@+id/agenda_overflow_schedule"
 		android:title="Agendar" />
 
 </menu>

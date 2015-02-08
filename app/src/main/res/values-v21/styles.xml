@@ -21,6 +21,8 @@
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:actionBarStyle" >@style/XapoTheme.ActionBarStyle</item>
 
+        <item name="android:popupMenuStyle">@style/PopupMenu</item>
+
 
     </style>
 
@@ -31,5 +33,9 @@
 
     <style name="XapoTheme.ActionBarStyle" parent="android:Widget.Material.ActionBar.Solid">
         <item name="android:icon">@drawable/ic_launcher</item>
+    </style>
+
+    <style name="PopupMenu" parent="@android:style/Widget.PopupMenu">
+        <item name="android:popupBackground">@drawable/abc_list_focused_holo</item>
     </style>
 </resources>

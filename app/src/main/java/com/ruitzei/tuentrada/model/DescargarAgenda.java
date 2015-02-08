@@ -29,10 +29,6 @@ public class DescargarAgenda extends AsyncTask<String, Void, String> {
     }
 
     @Override
-    protected void onPreExecute() {
-    }
-
-    @Override
     protected String doInBackground(String... urls) {
         while (!isCancelled()) {
             try {
