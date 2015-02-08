@@ -26,45 +26,79 @@
     </FrameLayout>
 
     <LinearLayout
-        android:fitsSystemWindows="true"
         android:orientation="vertical"
         android:layout_width="280dp"
-        android:layout_height="fill_parent"
+        android:layout_height="match_parent"
         android:layout_gravity="left"
+        android:fitsSystemWindows="true"
         android:background="@color/white">
-        <LinearLayout
-            android:layout_marginBottom="10dp"
-            android:clickable="true"
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:background="@drawable/header_back">
-            <ImageView
-                android:layout_marginLeft="15dp"
-                android:layout_gravity="bottom"
-                android:layout_marginStart="15dp"
-                android:layout_marginTop="85dp"
-                android:layout_height="80dp"
-                android:layout_width="80dp"
-                android:src="@drawable/header_logo"
-                />
-        </LinearLayout>
-        <ListView
-            android:id="@+id/drawer_list"
-            android:choiceMode="singleChoice"
-            android:divider="@null"
-            android:dividerHeight="0dp"
-            android:layout_width="280dp"
-            android:entries="@array/drawer_list_items"
-            android:layout_height="wrap_content">
-        </ListView>
-        <View
-            android:layout_marginTop="10dp"
-            android:layout_gravity="bottom"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/sendingGrayTop"
-            />
+        <ScrollView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fillViewport="true">
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="280dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:background="@color/white">
+                <LinearLayout
+                    android:layout_marginBottom="5dp"
+                    android:clickable="true"
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    android:background="@drawable/header_back">
+                    <ImageView
+                        android:layout_marginLeft="15dp"
+                        android:layout_gravity="bottom"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginTop="85dp"
+                        android:layout_height="80dp"
+                        android:layout_width="80dp"
+                        android:src="@drawable/header_logo"
+                        />
+                </LinearLayout>
+                <ListView
+                    android:id="@+id/drawer_list"
+                    android:choiceMode="singleChoice"
+                    android:divider="@null"
+                    android:dividerHeight="0dp"
+                    android:layout_width="280dp"
+                    android:layout_height="wrap_content">
+                </ListView>
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="280dp"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white">
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1px"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="10dp"
+                        android:background="@color/sendingGrayTop"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Categorias"
+                        android:textStyle="bold"
+                        android:textSize="14sp"
+                        android:paddingLeft="18dp"
+                        android:layout_marginBottom="6dp"
+                        android:textColor="@color/grayText"/>
+                </LinearLayout>
+                <ListView
+                    android:id="@+id/drawer_list_categories"
+                    android:choiceMode="singleChoice"
+                    android:divider="@null"
+                    android:dividerHeight="0dp"
+                    android:layout_width="280dp"
+                    android:layout_height="wrap_content">
+                </ListView>
+
+            </LinearLayout>
+        </ScrollView>
     </LinearLayout>
 </android.support.v4.widget.DrawerLayout>
 

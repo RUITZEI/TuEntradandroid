@@ -12,9 +12,12 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import com.nostra13.universalimageloader.cache.disc.impl.UnlimitedDiscCache;
@@ -34,6 +37,7 @@ import java.util.List;
 public class MainActivity extends ActionBarActivity {
     public ActionBarDrawerToggle mDrawerToggle;
     private ListView mDrawerList;
+    private ListView mDrawerListCategories;
     private DrawerLayout mDrawerLayout;
     private Toolbar mToolBar;
     private ImageLoader mImageLoader;
@@ -58,6 +62,7 @@ public class MainActivity extends ActionBarActivity {
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.drawer_list);
+        mDrawerListCategories = (ListView) findViewById(R.id.drawer_list_categories);
 
         if( Build.VERSION.SDK_INT >= 21 ) {
             //getActionBar().setIcon(R.drawable.ic_launcher);
@@ -97,7 +102,11 @@ public class MainActivity extends ActionBarActivity {
             mImageLoader.init(config);
         }
 
-        mDrawerList.setAdapter(new DrawerAdapter(this, ItemDrawer.getTestingList(), getImageLoader()));
+        mDrawerList.setAdapter(new DrawerAdapter(this, ItemDrawer.getHeaderList(), getImageLoader()));
+        setListViewHeightBasedOnChildren(mDrawerList);
+        mDrawerListCategories.setAdapter(new DrawerAdapter(this, ItemDrawer.getTestingList(), getImageLoader()));
+        setListViewHeightBasedOnChildren(mDrawerListCategories);
+
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.drawer_open, R.string.drawer_close){
             public void onDrawerClosed(View view) {
                 super.onDrawerClosed(view);
@@ -124,7 +133,17 @@ public class MainActivity extends ActionBarActivity {
         mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Log.d("Drawer", "item clicked = " + position);
+                Log.d("Header Drawer click: ", "item clicked = " + position);
+                if (position == 2){
+
+                }
+            }
+        });
+
+        mDrawerListCategories.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Log.d("Categories Drawer", "item clicked = " + position);
                 if (position == 2){
 
                 }
@@ -179,6 +198,37 @@ public class MainActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public static void setListViewHeightBasedOnChildren(ListView listView)
+    {
+        ListAdapter listAdapter = listView.getAdapter();
+        if (listAdapter == null)
+            return;
+
+        int desiredWidth = View.MeasureSpec.makeMeasureSpec(listView.getWidth(), View.MeasureSpec.UNSPECIFIED);
+        int totalHeight=0;
+        View view = null;
+
+        for (int i = 0; i < listAdapter.getCount(); i++)
+        {
+            view = listAdapter.getView(i, view, listView);
+
+            if (i == 0)
+                view.setLayoutParams(new ViewGroup.LayoutParams(desiredWidth,
+                        LinearLayout.LayoutParams.MATCH_PARENT));
+
+            view.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
+            totalHeight += view.getMeasuredHeight();
+
+        }
+
+        ViewGroup.LayoutParams params = listView.getLayoutParams();
+        params.height = totalHeight + ((listView.getDividerHeight()) * (listAdapter.getCount()));
+
+        listView.setLayoutParams(params);
+        listView.requestLayout();
+
     }
 
     public ImageLoader getImageLoader(){

@@ -34,13 +34,25 @@ public class ItemDrawer {
         String aux2 = "drawable://" + R.drawable.ic_launcher;
         String aux3 = "drawable://" + R.drawable.ic_launcher;
 
-        darwerList.add(new ItemDrawer("Novedades", aux1));
         darwerList.add(new ItemDrawer("Conciertos", aux1));
         darwerList.add(new ItemDrawer("Deportes", aux2));
         darwerList.add(new ItemDrawer("Familia", aux3));
         darwerList.add(new ItemDrawer("Teatro", aux3));
         darwerList.add(new ItemDrawer("Exposiciones", aux3));
 
+
+        return darwerList;
+    }
+
+    public static List<ItemDrawer> getHeaderList(){
+        List<ItemDrawer> darwerList = new ArrayList<ItemDrawer>();
+
+        String aux1 = "drawable://" + R.drawable.ic_launcher;
+        String aux2 = "drawable://" + R.drawable.ic_launcher;
+        String aux3 = "drawable://" + R.drawable.ic_launcher;
+
+        darwerList.add(new ItemDrawer("Principal", aux1));
+        darwerList.add(new ItemDrawer("Destacados", aux1));
 
         return darwerList;
     }
