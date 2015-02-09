@@ -9,8 +9,6 @@ import android.widget.PopupMenu;
 import com.ruitzei.tuentrada.R;
 import com.ruitzei.tuentrada.fragments.FragmentAgenda;
 
-import java.lang.reflect.Field;
-
 /**
  * Created by RUITZEI on 07/02/2015.
  */
@@ -34,7 +32,7 @@ public class OnAgendaOverflowItemSelectedListener implements View.OnClickListene
         popupMenu.getMenuInflater().inflate(R.menu.menu_list_overflow, popupMenu.getMenu());
 
         // Force icons to show
-        Object menuHelper;
+        /*Object menuHelper;
         Class[] argTypes;
         try {
             Field fMenuHelper = PopupMenu.class.getDeclaredField("mPopup");
@@ -55,7 +53,7 @@ public class OnAgendaOverflowItemSelectedListener implements View.OnClickListene
             Log.w("asd", "error forcing menu icons to show", e);
             popupMenu.show();
             return;
-        }
+        }*/
 
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override

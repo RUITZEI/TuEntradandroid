@@ -92,7 +92,7 @@ public class FragmentAgenda extends Fragment implements SwipeRefreshLayout.OnRef
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
-                goToDetails(position);
+                goToBuy(position);
             }
         });
     }

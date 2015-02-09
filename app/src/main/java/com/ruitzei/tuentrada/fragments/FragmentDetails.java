@@ -139,7 +139,7 @@ public class FragmentDetails extends Fragment implements OnScrollChangedCallback
     }
 
     private void updateActionBarTransparency(float scrollRatio) {
-        int newAlpha = (int) (scrollRatio * 255 + 55);
+        int newAlpha = (int) (scrollRatio * 255 );
         mActionBarBackgroundDrawable.setAlpha(newAlpha);
         mToolbar.setBackground(mActionBarBackgroundDrawable);
     }
