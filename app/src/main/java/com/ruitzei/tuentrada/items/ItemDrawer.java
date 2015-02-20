@@ -30,15 +30,17 @@ public class ItemDrawer {
 
         List<ItemDrawer> darwerList = new ArrayList<ItemDrawer>();
 
-        String aux1 = "drawable://" + R.drawable.ic_launcher;
-        String aux2 = "drawable://" + R.drawable.ic_launcher;
-        String aux3 = "drawable://" + R.drawable.ic_launcher;
+        String conciertos = "drawable://" + R.drawable.ic_conciertos;
+        String deportes = "drawable://" + R.drawable.ic_deportes;
+        String familia = "drawable://" + R.drawable.ic_familia;
+        String teatro = "drawable://" + R.drawable.ic_teatro;
+        String exposiciones = "drawable://" + R.drawable.ic_exposiciones;
 
-        darwerList.add(new ItemDrawer("Conciertos", aux1));
-        darwerList.add(new ItemDrawer("Deportes", aux2));
-        darwerList.add(new ItemDrawer("Familia", aux3));
-        darwerList.add(new ItemDrawer("Teatro", aux3));
-        darwerList.add(new ItemDrawer("Exposiciones", aux3));
+        darwerList.add(new ItemDrawer("Conciertos", conciertos));
+        darwerList.add(new ItemDrawer("Deportes", deportes));
+        darwerList.add(new ItemDrawer("Familia", familia));
+        darwerList.add(new ItemDrawer("Teatro", teatro));
+        darwerList.add(new ItemDrawer("Exposiciones", exposiciones));
 
 
         return darwerList;
@@ -47,12 +49,11 @@ public class ItemDrawer {
     public static List<ItemDrawer> getHeaderList(){
         List<ItemDrawer> darwerList = new ArrayList<ItemDrawer>();
 
-        String aux1 = "drawable://" + R.drawable.ic_launcher;
-        String aux2 = "drawable://" + R.drawable.ic_launcher;
-        String aux3 = "drawable://" + R.drawable.ic_launcher;
+        String principal = "drawable://" + R.drawable.ic_principal;
+        String destacados = "drawable://" + R.drawable.ic_destacado;
 
-        darwerList.add(new ItemDrawer("Principal", aux1));
-        darwerList.add(new ItemDrawer("Destacados", aux1));
+        darwerList.add(new ItemDrawer("Principal", principal));
+        darwerList.add(new ItemDrawer("Destacados", destacados));
 
         return darwerList;
     }
