@@ -7,7 +7,7 @@
         <!-- Main theme colors -->
         <!--   your app branding color for the app bar -->
         <item name="colorPrimary">@android:color/holo_blue_dark</item>
-        <!--   darker variant for the status bar and contextual app bars -->
+        <!--  <item name="colorPrimary">@android:color/holo_blue_dark</item> darker variant for the status bar and contextual app bars -->
         <item name="colorPrimaryDark">@color/darkerRed</item>
         <!--   theme UI controls like checkboxes and text fields -->
         <item name="colorAccent">@color/lightGray</item>

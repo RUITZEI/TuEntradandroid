@@ -17,7 +17,11 @@
     <color name="button_background">#e5e5e5</color>
     <color name ="material_blue">#279F95</color>
     <color name ="transparent">#FFFFFFFF</color>
-    <color name="TuEntradaMain"> @android:color/holo_blue_dark </color>
+    <color name="cyan"> @android:color/holo_blue_dark </color>
+    <color name="TuEntradaSecondary"> #FEC649 </color>
+    <color name="TuEntradaMain"> #6D797A </color>
+
+
 
     <color name="pink">#f37b8e</color>
     <color name="red">#FF3B30</color>
