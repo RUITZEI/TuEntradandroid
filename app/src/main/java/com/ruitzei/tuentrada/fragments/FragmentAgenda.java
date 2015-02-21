@@ -77,7 +77,7 @@ public class FragmentAgenda extends Fragment implements SwipeRefreshLayout.OnRef
 
 
     public void mostrarLista(){
-        adapterNoticias = new CustomListAdapter(getActivity().getApplicationContext(),actividadPrincipal.getAgenda(), actividadPrincipal.getImageLoader(), actividadPrincipal.getEventPhotoOptions(),this);
+        adapterNoticias = new CustomListAdapter(actividadPrincipal.getmToolBar().getContext(),actividadPrincipal.getAgenda(), actividadPrincipal.getImageLoader(), actividadPrincipal.getEventPhotoOptions(),this);
         lista.setAdapter(adapterNoticias);
 
         agregarListenerLista();
@@ -233,7 +233,7 @@ public class FragmentAgenda extends Fragment implements SwipeRefreshLayout.OnRef
     }
 
     public void addToCalendar(int position){
-        long startMillis = 0;
+            long startMillis = 0;
         long endMillis = 0;
 
         ItemAgenda item = adapterNoticias.getItem(position);

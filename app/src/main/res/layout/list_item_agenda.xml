@@ -43,14 +43,7 @@
             android:layout_below="@+id/nombre"
             android:text="Ciudad del evento?"/>
 
-        <View
-            android:id="@+id/agenda_overflow"
-            android:layout_width="50dp"
-            android:layout_height="40dp"
-            android:layout_alignTop="@+id/nombre"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true">
-        </View>
+
         <ImageView
             android:layout_width="15dp"
             android:layout_height="15dp"
@@ -61,6 +54,16 @@
             android:layout_marginTop="10dp"
             android:layout_alignParentRight="true"
             android:src="@drawable/overflow_icon"/>
+
+        <View
+            android:id="@+id/agenda_overflow"
+            android:layout_width="50dp"
+            android:layout_height="40dp"
+            android:layout_alignTop="@+id/nombre"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/overflow_selector">
+        </View>
 
         <TextView
             android:id="@+id/fecha"

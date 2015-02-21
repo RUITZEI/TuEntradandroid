@@ -4,13 +4,13 @@
 
         <!-- Main theme colors -->
         <!--   your app branding color for the app bar -->
-        <item name="android:colorPrimary">@color/darkGray</item>
+        <item name="colorPrimary">@color/yellow</item>
         <!--   darker variant for the status bar and contextual app bars -->
-        <item name="android:colorPrimaryDark">@color/darkGray</item>
+        <item name="colorPrimaryDark">@color/darkYellow</item>
         <!--   theme UI controls like checkboxes and text fields -->
-        <item name="android:colorAccent">@color/darkerGray</item>
+        <item name="colorAccent">@color/darkYellow</item>
 
-        <item name="android:statusBarColor">@color/darkerGray</item>
+        <item name="android:statusBarColor">@color/darkYellow</item>
 
         <!--   For using a Toolbar Instead
                 <item name="windowActionBar">false</item>
@@ -21,13 +21,14 @@
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:actionBarStyle" >@style/XapoTheme.ActionBarStyle</item>
 
-        <item name="android:popupMenuStyle">@style/PopupMenu</item>
+        <item name="android:textAppearanceSmallPopupMenu">@style/PopupMenuTextAppearanceLarge</item>
+        <item name="android:textAppearanceLargePopupMenu">@style/PopupMenuTextAppearanceLarge</item>
 
 
     </style>
 
     <style name="ToolBarStyle" parent="">
-        <item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>
+        <item name="popupTheme">@style/PopupMenu</item>
         <item name="theme">@style/ThemeOverlay.AppCompat.ActionBar</item>
     </style>
 
@@ -36,6 +37,12 @@
     </style>
 
     <style name="PopupMenu" parent="@android:style/Widget.PopupMenu">
-        <item name="android:popupBackground">@drawable/abc_list_focused_holo</item>
+        <item name="android:popupBackground">@color/TuEntradaMainSecondary</item>
+    </style>
+    <style name="PopupMenuTextAppearanceLarge" parent="@style/TextAppearance.AppCompat.Light.Widget.PopupMenu.Large">
+        <item name="android:textColor">#000000</item>
+    </style>
+    <style name="PopupMenuTextAppearanceSmall" parent="@style/TextAppearance.AppCompat.Light.Widget.PopupMenu.Small">
+        <item name="android:textColor">#000000</item>
     </style>
 </resources>
