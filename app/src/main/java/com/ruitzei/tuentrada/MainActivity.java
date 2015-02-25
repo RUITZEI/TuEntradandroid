@@ -1,5 +1,9 @@
 package com.ruitzei.tuentrada;
 
+import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
@@ -8,6 +12,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -20,6 +25,9 @@ import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
+import com.facebook.AppEventsLogger;
+import com.facebook.UiLifecycleHelper;
+import com.facebook.widget.FacebookDialog;
 import com.nostra13.universalimageloader.cache.disc.impl.UnlimitedDiscCache;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -31,6 +39,8 @@ import com.ruitzei.tuentrada.items.ItemAgenda;
 import com.ruitzei.tuentrada.items.ItemDrawer;
 
 import java.io.File;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 
@@ -45,12 +55,22 @@ public class MainActivity extends ActionBarActivity {
 
     private List<ItemAgenda> agenda;
 
+    //Facebook
+    UiLifecycleHelper uiHelper;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        requestWindowFeature(Window.FEATURE_PROGRESS);
+        //requestWindowFeature(Window.FEATURE_PROGRESS);
         super.onCreate(savedInstanceState);
 
+
         setContentView(R.layout.activity_main);
+
+        /*
+         * This is for Facebook
+         */
+        uiHelper = new UiLifecycleHelper(this, null);
+        uiHelper.onCreate(savedInstanceState);
 
 
         mToolBar = (Toolbar) findViewById(R.id.toolbar);
@@ -253,5 +273,63 @@ public class MainActivity extends ActionBarActivity {
 
     public DisplayImageOptions getEventPhotoOptions() {
         return mEventPhotoOptions;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        //Resumes the uiHelper
+        uiHelper.onResume();
+
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        //Pausing uiHelper
+        uiHelper.onPause();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        uiHelper.onDestroy();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        uiHelper.onSaveInstanceState(outState);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        uiHelper.onActivityResult(requestCode, resultCode, data, new FacebookDialog.Callback() {
+            @Override
+            public void onError(FacebookDialog.PendingCall pendingCall, Exception error, Bundle data) {
+                Log.e("Activity", String.format("Error: %s", error.toString()));
+            }
+
+            @Override
+            public void onComplete(FacebookDialog.PendingCall pendingCall, Bundle data) {
+                Log.i("Activity", "Success!");
+            }
+        });
+    }
+
+    public UiLifecycleHelper getUiHelper(){
+        return this.uiHelper;
+    }
+
+    public void shareLinkOnFb(String link){
+        FacebookDialog shareDialog = new FacebookDialog.ShareDialogBuilder(this)
+                .setLink(link)
+                .setApplicationName("TuEntrada")
+                .build();
+        uiHelper.trackPendingDialogCall(shareDialog.present());
     }
 }
