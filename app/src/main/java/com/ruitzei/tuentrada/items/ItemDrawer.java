@@ -35,12 +35,14 @@ public class ItemDrawer {
         String familia = "drawable://" + R.drawable.ic_familia;
         String teatro = "drawable://" + R.drawable.ic_teatro;
         String exposiciones = "drawable://" + R.drawable.ic_exposiciones;
+        String facebook = "drawable://" + R.drawable.ic_launcher;
 
         darwerList.add(new ItemDrawer("Conciertos", conciertos));
         darwerList.add(new ItemDrawer("Deportes", deportes));
         darwerList.add(new ItemDrawer("Familia", familia));
         darwerList.add(new ItemDrawer("Teatro", teatro));
         darwerList.add(new ItemDrawer("Exposiciones", exposiciones));
+        darwerList.add(new ItemDrawer("Compartir FB", facebook));
 
 
         return darwerList;

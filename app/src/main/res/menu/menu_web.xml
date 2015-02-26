@@ -11,4 +11,9 @@
         android:title="Abrir en Chrome"
         android:orderInCategory="100"
         app:showAsAction="never"/>
+
+    <item android:id="@+id/action_share"
+        android:title="Compartir en Facebook"
+        android:orderInCategory="100"
+        app:showAsAction="never"/>
 </menu>

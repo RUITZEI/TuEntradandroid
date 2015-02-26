@@ -221,7 +221,10 @@ public class FragmentAgenda extends Fragment implements SwipeRefreshLayout.OnRef
         String link = adapterNoticias.getItem(position).getLink();
         String linkMobile = link.substring(0, link.indexOf("seat")) + "mobile/" + link.substring(link.indexOf("seat"), link.length());
 
-        args.putString("link", linkMobile);
+        //Necesito ambos links porque si comparto por facebook voy a necesitar el link a la version desktop.
+        args.putString("link", link);
+        args.putString("linkMobile", linkMobile);
+
         Fragment fragment = new FragmentWebView();
         fragment.setArguments(args);
         FragmentManager fm = actividadPrincipal.getSupportFragmentManager();
@@ -238,15 +241,13 @@ public class FragmentAgenda extends Fragment implements SwipeRefreshLayout.OnRef
 
         ItemAgenda item = adapterNoticias.getItem(position);
 
+        //Por alguna razon le suma 1 al numero de mes...
         Calendar beginCal = Calendar.getInstance();
         beginCal.set(item.getAnioEvento(),
                      item.getMesEvento()-1,
                      item.getDiaEvento());
         startMillis = beginCal.getTimeInMillis();
 
-//        Calendar endCal = Calendar.getInstance();
-//        endCal.set(2015, 2, 18, 23, 59);
-//        endMillis = endCal.getTimeInMillis();
 
         Intent intent = new Intent(Intent.ACTION_EDIT);
         intent.setType("vnd.android.cursor.item/event");

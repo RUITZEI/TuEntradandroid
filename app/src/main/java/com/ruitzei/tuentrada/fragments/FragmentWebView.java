@@ -2,11 +2,17 @@ package com.ruitzei.tuentrada.fragments;
 
 import android.content.ClipData;
 import android.content.ClipboardManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.LabeledIntent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
+import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -23,8 +29,12 @@ import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.facebook.widget.FacebookDialog;
 import com.ruitzei.tuentrada.MainActivity;
 import com.ruitzei.tuentrada.R;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by RUITZEI on 25/12/2014.
@@ -34,6 +44,7 @@ public class FragmentWebView extends Fragment{
     private WebView web;
     private MainActivity actividadPrincipal;
     private String link;
+    private String linkMobile;
     private ProgressBar progressBar;
 
 
@@ -77,8 +88,9 @@ public class FragmentWebView extends Fragment{
 
         //Getting link from last Fragment.
         this.link = getArguments().getString("link");
-        web.loadUrl(link);
-        Log.d("WebView", "Abriendo Link:" + link);
+        this.linkMobile = getArguments().getString("linkMobile");
+        web.loadUrl(linkMobile);
+        Log.d("WebView", "Abriendo Link:" + linkMobile);
 
         //Has options menu + onPrepare + onCreate = inflate diff menu for each fragment.
         setHasOptionsMenu(true);
@@ -113,7 +125,7 @@ public class FragmentWebView extends Fragment{
                 Copy link to Clipboard
                  */
                 ClipboardManager clipboard = (ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
-                ClipData clip = ClipData.newPlainText("Link", link);
+                ClipData clip = ClipData.newPlainText("LinkMobile", linkMobile);
                 clipboard.setPrimaryClip(clip);
 
                 Toast.makeText(getActivity(), "Link Copiado!", Toast.LENGTH_SHORT).show();
@@ -125,6 +137,10 @@ public class FragmentWebView extends Fragment{
                 Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(link));
                 startActivity(browserIntent);
                 break;
+
+            case R.id.action_share:
+                //Comparto el link DESKTOP en el muro.
+                actividadPrincipal.shareLinkOnFb(this.link);
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -140,6 +156,7 @@ public class FragmentWebView extends Fragment{
         actividadPrincipal.getSupportActionBar().setTitle("Comprar");
         actividadPrincipal.getmToolBar().setBackgroundColor(getResources().getColor(R.color.TuEntradaMain));
     }
+
 
     @Override
     public void onDestroy(){
