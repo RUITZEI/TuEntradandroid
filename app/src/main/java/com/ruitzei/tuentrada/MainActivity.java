@@ -55,6 +55,9 @@ public class MainActivity extends ActionBarActivity {
 
     private List<ItemAgenda> agenda;
 
+    //Deberia ser el link para descargar del playstore.
+    private static final String LINK_TUENTRADA = "http://tuentrada.com";
+
     //Facebook
     UiLifecycleHelper uiHelper;
 
@@ -164,8 +167,10 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Log.d("Categories Drawer", "item clicked = " + position);
-                if (position == 2){
 
+                //5 = Compartir en facebook.
+                if (position == 5){
+                    shareLinkOnFb(LINK_TUENTRADA);
                 }
             }
         });
@@ -325,6 +330,10 @@ public class MainActivity extends ActionBarActivity {
         return this.uiHelper;
     }
 
+
+    /*
+    Abre el dialog comun de facebook para compartir un link en el muro.
+     */
     public void shareLinkOnFb(String link){
         FacebookDialog shareDialog = new FacebookDialog.ShareDialogBuilder(this)
                 .setLink(link)
