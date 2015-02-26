@@ -34,4 +34,5 @@
     <color name="orange">#FC2205</color>
 
     <color name="lightBackground">#E5E5E5</color>
+    <color name="popUpBackground">#eeeeee</color>
     <color name="darkBackground">#14172D</color></resources>
