@@ -7,6 +7,7 @@ import android.content.pm.Signature;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
@@ -14,6 +15,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -37,14 +39,20 @@ import com.ruitzei.tuentrada.adapters.DrawerAdapter;
 import com.ruitzei.tuentrada.fragments.FragmentAgenda;
 import com.ruitzei.tuentrada.items.ItemAgenda;
 import com.ruitzei.tuentrada.items.ItemDrawer;
+import com.ruitzei.tuentrada.model.Categorias;
 
 import java.io.File;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.logging.Handler;
 
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends ActionBarActivity{
     public ActionBarDrawerToggle mDrawerToggle;
     private ListView mDrawerList;
     private ListView mDrawerListCategories;
@@ -68,6 +76,7 @@ public class MainActivity extends ActionBarActivity {
 
 
         setContentView(R.layout.activity_main);
+
 
         /*
          * This is for Facebook
@@ -133,6 +142,8 @@ public class MainActivity extends ActionBarActivity {
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.drawer_open, R.string.drawer_close){
             public void onDrawerClosed(View view) {
                 super.onDrawerClosed(view);
+                Log.d("TOP CLOSE> ", Integer.toString(mDrawerList.getSelectedItemPosition()));
+                Log.d("BOTTOM CLOSE> ", Integer.toString(mDrawerListCategories.getSelectedItemPosition()));
                 //getActivity().getActionBar().setTitle(mTitle);
                 invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
             }
@@ -140,6 +151,8 @@ public class MainActivity extends ActionBarActivity {
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
                 //getActivity().getActionBar().setTitle(mDrawerTitle);
+                Log.d("Top List position> ", Integer.toString(mDrawerList.getSelectedItemPosition()));
+                Log.d("Bottom List position> ", Integer.toString(mDrawerListCategories.getSelectedItemPosition()));
                 invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
             }
 
@@ -153,35 +166,90 @@ public class MainActivity extends ActionBarActivity {
         // Set the drawer toggle as the DrawerListener
         mDrawerLayout.setDrawerListener(mDrawerToggle);
 
-        mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Log.d("Header Drawer click: ", "item clicked = " + position);
-                if (position == 2){
 
-                }
-            }
-        });
 
         mDrawerListCategories.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Log.d("Categories Drawer", "item clicked = " + position);
+                //Tengo que estar seguro de que el fragment esta ahi visible...
+                final FragmentAgenda fragment = (FragmentAgenda)getSupportFragmentManager().findFragmentByTag("FRAGMENT_AGENDA");
+                if (fragment.isVisible()){
+                    Log.d("Categories Drawer", "item clicked = " + position);
+                    deselectAllDrawerItems();
+                    view.setSelected(true);
 
-                //5 = Compartir en facebook.
-                if (position == 5){
-                    shareLinkOnFb(LINK_TUENTRADA);
+
+                    //mDrawerList.getItem
+                    Log.d("List count: " , Integer.toString(mDrawerListCategories.getAdapter().getCount()));
+
+                    //5 = Compartir en facebook.
+                    switch (position){
+                        case 0:
+                            actualizarVistaAgendaConDatos(Categorias.CONCIERTOS, fragment);
+                            break;
+                        case 1:
+                            actualizarVistaAgendaConDatos(Categorias.DEPORTES, fragment);
+                            break;
+                        case 2:
+                            actualizarVistaAgendaConDatos(Categorias.FAMILIA, fragment);
+                            break;
+                        case 3:
+                            actualizarVistaAgendaConDatos(Categorias.TEATRO, fragment);
+                            break;
+                        case 4:
+                            actualizarVistaAgendaConDatos(Categorias.EXPOSICIONES, fragment);
+                            break;
+                        case 5:
+                            shareLinkOnFb(LINK_TUENTRADA);
+                            break;
+                        default:
+                            Log.e("fragment Agenda:" , "coso incorrecto");
+                    }
                 }
+                mDrawerLayout.closeDrawer(Gravity.LEFT);
+            }
+
+        });
+
+        mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                final FragmentAgenda fragment = (FragmentAgenda)getSupportFragmentManager().findFragmentByTag("FRAGMENT_AGENDA");
+                if (fragment.isVisible()) {
+                    Log.d("Header Drawer click: ", "item clicked = " + position);
+                    deselectAllDrawerItems();
+                    view.setSelected(true);
+                    Log.d("List count: ", Integer.toString(mDrawerList.getAdapter().getCount()));
+
+                    if (position == 0) {
+                        actualizarVistaAgendaConDatos(Categorias.PRINCIPAL, fragment);
+                    }
+                }
+                mDrawerLayout.closeDrawer(Gravity.LEFT);
             }
         });
+
 
         if (savedInstanceState == null) {
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             FragmentAgenda fragment = new FragmentAgenda();
-            transaction.replace(R.id.container, fragment);
+            transaction.replace(R.id.container, fragment, "FRAGMENT_AGENDA");
             //transaction.setCustomAnimations(R.anim.slide_out_right, R.anim.slide_in_right);
             transaction.commit();
         }
+    }
+
+    public void deselectAllDrawerItems() {
+        //Primera lista (novedades + todas)
+        for (int i = 0; i < mDrawerList.getChildCount(); i++) {
+            mDrawerList.getChildAt(i).setSelected(false);
+        }
+
+        //Segunda lista: eventos, etc...
+        for (int i = 0; i < mDrawerListCategories.getChildCount(); i++) {
+            mDrawerListCategories.getChildAt(i).setSelected(false);
+        }
+
     }
 
     @Override protected void onPostCreate(Bundle savedInstance){
@@ -225,8 +293,7 @@ public class MainActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public static void setListViewHeightBasedOnChildren(ListView listView)
-    {
+    public static void setListViewHeightBasedOnChildren(ListView listView){
         ListAdapter listAdapter = listView.getAdapter();
         if (listAdapter == null)
             return;
@@ -278,6 +345,31 @@ public class MainActivity extends ActionBarActivity {
 
     public DisplayImageOptions getEventPhotoOptions() {
         return mEventPhotoOptions;
+    }
+
+    /*
+    Primero vacio la lista para que se vea el fondo blanco, pongo a girar el spinner.
+    Luego de 0.5secs desaparece el spinner y se muestran los nuevos datos.
+     */
+    public void actualizarVistaAgendaConDatos(final String clave, final FragmentAgenda fragment){
+        agenda = new ArrayList<ItemAgenda>();
+        fragment.mostrarLista();
+        fragment.mostrarSpinner();
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        fragment.cambiarAgenda(clave);
+                        fragment.mostrarLista();
+                        fragment.ocultarSpinner();
+                    }
+                });
+            }
+        }, 500);
+
     }
 
     @Override

@@ -6,7 +6,7 @@
         android:drawable="@color/white" />
     <item
         android:state_selected="true"
-        android:drawable="@color/darkGray"/>
+        android:drawable="@color/lightGray"/>
     <item
         android:state_pressed= "true"
         android:drawable="@color/lightGray"/>

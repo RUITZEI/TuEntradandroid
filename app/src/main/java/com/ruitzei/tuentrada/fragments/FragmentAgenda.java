@@ -23,11 +23,14 @@ import android.widget.Toast;
 import com.ruitzei.tuentrada.MainActivity;
 import com.ruitzei.tuentrada.R;
 import com.ruitzei.tuentrada.items.ItemAgenda;
+import com.ruitzei.tuentrada.model.Categorias;
 import com.ruitzei.tuentrada.model.DescargarAgenda;
 import com.ruitzei.tuentrada.model.OnDownloadCompleted;
 import com.ruitzei.tuentrada.adapters.CustomListAdapter;
 
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.List;
 
 /**
@@ -46,6 +49,7 @@ public class FragmentAgenda extends Fragment implements SwipeRefreshLayout.OnRef
     private String[] itemsSpinner;
     private SearchView mSearchView;
     private View mSpinner;
+    private HashMap<String, List<ItemAgenda>> map;
     private SwipeRefreshLayout mRefreshLayout;
 
     private static final String RSS_TUENTRADA = "https://www.tuentrada.com/online/feedxml.asp";
@@ -97,6 +101,14 @@ public class FragmentAgenda extends Fragment implements SwipeRefreshLayout.OnRef
         });
     }
 
+    public void mostrarSpinner(){
+        this.mSpinner.setVisibility(View.VISIBLE);
+    }
+
+    public void ocultarSpinner(){
+        this.mSpinner.setVisibility(View.GONE);
+    }
+
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
@@ -142,11 +154,16 @@ public class FragmentAgenda extends Fragment implements SwipeRefreshLayout.OnRef
     Metodos de la descarga del XML de TuEntrada
      */
     @Override
-    public void onDownloadSucceed(List<ItemAgenda> agenda){
-        actividadPrincipal.setAgenda(agenda);
+    public void onDownloadSucceed(HashMap<String, List<ItemAgenda>> agenda){
+        this.map = agenda;
+        actividadPrincipal.setAgenda(agenda.get(Categorias.PRINCIPAL));
         mostrarLista();
         mSpinner.setVisibility(View.GONE);
         if (mRefreshLayout.isRefreshing()) mRefreshLayout.setRefreshing(false);
+    }
+
+    public void cambiarAgenda(String claveDiccionario){
+        actividadPrincipal.setAgenda(map.get(claveDiccionario));
     }
 
     @Override

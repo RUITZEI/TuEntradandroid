@@ -28,6 +28,7 @@ public class TuEntradaParser {
     private static final String ATT_VENUE_NAME = "venue_name";
     private static final String ATT_SEATS_FROM = "min_price";
     private static final String ATT_SERIES_NAME = "series_name";
+    private static final String ATT_CATEGORY = "category";
 
     public List<ItemAgenda> parse(InputStream in) throws XmlPullParserException, IOException{
         try {
@@ -77,6 +78,7 @@ public class TuEntradaParser {
         String nombreVenue = null;
         String asientosDesde = null;
         String seriesName = null;
+        String category = null;
         char disponibilidad = ' ';
 
         while (parser.next() != XmlPullParser.END_TAG){
@@ -103,14 +105,16 @@ public class TuEntradaParser {
                 nombreVenue = leerNombreVenue(parser);
             }else if (name.equals(ATT_SEATS_FROM)){
                 asientosDesde = leerAsientosDesde(parser);
-            }else if (name.equals(ATT_SERIES_NAME)){
+            }else if (name.equals(ATT_SERIES_NAME)) {
                 seriesName = leerSeriesName(parser);
+            }else if (name.equals(ATT_CATEGORY)){
+                category = leerCategoria(parser);
             }else{
                 skip(parser);
             }
         }
 
-        return new ItemAgenda(nombre, ciudad, fecha, link, logoId, fechaDeVenta, disponibilidad, nombreVenue, asientosDesde, seriesName);
+        return new ItemAgenda(nombre, ciudad, fecha, link, logoId, fechaDeVenta, disponibilidad, nombreVenue, asientosDesde, seriesName, category);
     }
 
 
@@ -183,6 +187,13 @@ public class TuEntradaParser {
         String seriasName = readText(parser);
         parser.require(XmlPullParser.END_TAG, ns, ATT_SERIES_NAME);
         return seriasName;
+    }
+
+    private String leerCategoria(XmlPullParser parser) throws  IOException, XmlPullParserException{
+        parser.require(XmlPullParser.START_TAG, ns, ATT_CATEGORY);
+        String category = readText(parser);
+        parser.require(XmlPullParser.END_TAG, ns, ATT_CATEGORY);
+        return category;
     }
 
     //Aca estoy levantando texto del atributo pedido.

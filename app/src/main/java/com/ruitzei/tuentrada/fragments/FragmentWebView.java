@@ -29,7 +29,7 @@ import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.facebook.widget.FacebookDialog;
+
 import com.ruitzei.tuentrada.MainActivity;
 import com.ruitzei.tuentrada.R;
 

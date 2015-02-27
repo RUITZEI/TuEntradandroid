@@ -22,9 +22,10 @@ public class ItemAgenda {
     private String asientosDesde;
     private String seriesName;
     private char disponibilidad;
+    private String category;
 
     public ItemAgenda(String nombre, String ciudad,  String fecha, String link,
-                      String logoId, String fechaDeVenta, char disponibilidad, String nombreVenue, String asientosDesde, String seriesName){
+                      String logoId, String fechaDeVenta, char disponibilidad, String nombreVenue, String asientosDesde, String seriesName, String category){
         setNombre(nombre);
         setCiudad(ciudad);
         setFecha(fecha);
@@ -35,6 +36,7 @@ public class ItemAgenda {
         setNombreVenue(nombreVenue);
         setAsientosDesde(asientosDesde);
         setSeriesName(seriesName);
+        setCategory(category);
     }
 
     public void setFechaDeVenta(String fechaDeVenta) {
@@ -77,6 +79,10 @@ public class ItemAgenda {
         this.seriesName = seriesName;
     }
 
+    public void setCategory (String category){
+        this.category = category;
+    }
+
 
     public String getCiudad(){
         return this.ciudad;
@@ -112,6 +118,10 @@ public class ItemAgenda {
 
     public String getAsientosDesde(){
         return this.asientosDesde;
+    }
+
+    public String getCategory(){
+        return this.category;
     }
 
     public String getSeriesName(){
