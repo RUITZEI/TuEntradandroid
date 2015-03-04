@@ -36,6 +36,7 @@ public class ItemDrawer {
         String teatro = "drawable://" + R.drawable.ic_teatro;
         String exposiciones = "drawable://" + R.drawable.ic_exposiciones;
         String facebook = "drawable://" + R.drawable.ic_launcher;
+        String twitter = "drawable://" + R.drawable.ic_launcher;
 
         darwerList.add(new ItemDrawer("Conciertos", conciertos));
         darwerList.add(new ItemDrawer("Deportes", deportes));
@@ -43,6 +44,7 @@ public class ItemDrawer {
         darwerList.add(new ItemDrawer("Teatro", teatro));
         darwerList.add(new ItemDrawer("Exposiciones", exposiciones));
         darwerList.add(new ItemDrawer("Compartir FB", facebook));
+        darwerList.add(new ItemDrawer("Compartir TW", twitter));
 
 
         return darwerList;

@@ -84,16 +84,16 @@ public class CustomListAdapter extends ArrayAdapter<Object> implements Filterabl
             placeHolder = (PlaceHolder)convertView.getTag();
         }
 
-        //Obteniendo instancia del volley.
+        ItemAgenda item = agendaFiltrada.get(position);
 
 
         //placeHolder.foto.setImageUrl("http://3.bp.blogspot.com/-R_7qdxVpSIg/UTtjWiBNO-I/AAAAAAAABCE/MTX-FUb4LTY/s1600/ballet-el-lago-de-los-cisnes%5B1%5D.jpg",mImageLoader);
         //placeHolder.foto.setImageUrl("https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcRyiXI4PEL4lr725Bldtawz9VJLVU1b7ayzgqFktV8dfLHlG8uRhh2JMA",mImageLoader);
         mImageLoader.displayImage("drawable://" + R.drawable.ic_launcher, placeHolder.foto);
-        placeHolder.ciudad.setText(agendaFiltrada.get(position).getCiudad());
-        placeHolder.nombre.setText(agendaFiltrada.get(position).getNombre());
-        placeHolder.fecha.setText(agendaFiltrada.get(position).getFechaConvertida());
-        placeHolder.overflowIcon.setOnClickListener(new OnAgendaOverflowItemSelectedListener(contexto, fragment, position));
+        placeHolder.ciudad.setText(item.getCiudad());
+        placeHolder.nombre.setText(item.getNombre());
+        placeHolder.fecha.setText(item.getFechaConvertida());
+        placeHolder.overflowIcon.setOnClickListener(new OnAgendaOverflowItemSelectedListener(contexto, fragment, item));
 
         String tipo = agendaFiltrada.get(position).getNombre().toLowerCase();
         setFoto(placeHolder, agendaFiltrada.get(position).getLogoId(), tipo);

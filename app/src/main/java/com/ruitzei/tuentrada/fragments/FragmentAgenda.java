@@ -57,6 +57,8 @@ public class FragmentAgenda extends Fragment implements SwipeRefreshLayout.OnRef
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState){
+
+
         View view = inflater.inflate(R.layout.fragment_agenda, container, false);
         this.actividadPrincipal = ((MainActivity)getActivity());
         this.lista = (ListView)view.findViewById(android.R.id.list);
@@ -96,7 +98,7 @@ public class FragmentAgenda extends Fragment implements SwipeRefreshLayout.OnRef
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
-                goToBuy(position);
+                goToBuy(adapterNoticias.getItem(position));
             }
         });
     }
@@ -184,33 +186,33 @@ public class FragmentAgenda extends Fragment implements SwipeRefreshLayout.OnRef
         actividadPrincipal.getmToolBar().setBackgroundColor(getResources().getColor(R.color.TuEntradaMain));
     }
 
-    public void goToDetails(int position){
-        boolean tieneAsientosDisponibles = adapterNoticias.getItem(position).getDisponibilidad() != 'S';
+    public void goToDetails(ItemAgenda item){
+        boolean tieneAsientosDisponibles = item.getDisponibilidad() != 'S';
         //No se puede comprar si los tickets toadvia no salieron a la venta
-        boolean puedenComprar = (adapterNoticias.getItem(position).getFechaDeVenta().length() == 0);
+        boolean puedenComprar = (item.getFechaDeVenta().length() == 0);
 
         if (tieneAsientosDisponibles && puedenComprar){
-            adapterNoticias.getItem(position).getDiaEvento();
-            adapterNoticias.getItem(position).getMesEvento();
-            adapterNoticias.getItem(position).getAnioEvento();
+            item.getDiaEvento();
+            item.getMesEvento();
+            item.getAnioEvento();
 
-            Log.d("Item Clicked", adapterNoticias.getItem(position).getLink());
+            Log.d("Item Clicked", item.getLink());
 
-                    /*
-                    Preparando el Bundle para mandarle al siguiente Fragment.
-                     */
-            String link = adapterNoticias.getItem(position).getLink();
+            /*
+            Preparando el Bundle para mandarle al siguiente Fragment.
+            */
+            String link = item.getLink();
             String linkMobile = link.substring(0, link.indexOf("seat")) + "mobile/" + link.substring(link.indexOf("seat"), link.length());
 
             Bundle args = new Bundle();
             args.putString("link", linkMobile);
-            args.putString("image", adapterNoticias.getItem(position).getLogoId());
-            args.putString("nombre", adapterNoticias.getItem(position).getNombre());
-            args.putString("fecha", adapterNoticias.getItem(position).getFechaConvertida());
-            args.putString("venue_name", adapterNoticias.getItem(position).getNombreVenue());
-            args.putString("seats_from", adapterNoticias.getItem(position).getAsientosDesde());
-            args.putString("ciudad", adapterNoticias.getItem(position).getCiudad());
-            args.putString("series_name", adapterNoticias.getItem(position).getSeriesName());
+            args.putString("image", item.getLogoId());
+            args.putString("nombre", item.getNombre());
+            args.putString("fecha", item.getFechaConvertida());
+            args.putString("venue_name", item.getNombreVenue());
+            args.putString("seats_from", item.getAsientosDesde());
+            args.putString("ciudad", item.getCiudad());
+            args.putString("series_name", item.getSeriesName());
 
             Fragment fragment = new FragmentDetails();
             fragment.setArguments(args);
@@ -226,16 +228,16 @@ public class FragmentAgenda extends Fragment implements SwipeRefreshLayout.OnRef
         }else if (!puedenComprar){
             //String msgNoSeatsYet = getString(R.string.msg_no_seats_on_sale);
             //Toast.makeText(getActivity(), msgNoSeatsYet + " " + adapterNoticias.getItem(position).getFechaDeVentaConvertida(), Toast.LENGTH_LONG).show();
-            Toast.makeText(getActivity(), "no salieron a la venta" + " " + adapterNoticias.getItem(position).getFechaDeVentaConvertida(), Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(), "no salieron a la venta" + " " + item.getFechaDeVentaConvertida(), Toast.LENGTH_LONG).show();
         }
 
     }
 
-    public void goToBuy(int position){
-        Log.d("FECHA COMUN>" , adapterNoticias.getItem(position).getFecha());
+    public void goToBuy(ItemAgenda item){
+        Log.d("FECHA COMUN>" , item.getFecha());
         Bundle args = new Bundle();
 
-        String link = adapterNoticias.getItem(position).getLink();
+        String link = item.getLink();
         String linkMobile = link.substring(0, link.indexOf("seat")) + "mobile/" + link.substring(link.indexOf("seat"), link.length());
 
         //Necesito ambos links porque si comparto por facebook voy a necesitar el link a la version desktop.
@@ -252,11 +254,9 @@ public class FragmentAgenda extends Fragment implements SwipeRefreshLayout.OnRef
                 .commit();
     }
 
-    public void addToCalendar(int position){
+    public void addToCalendar(ItemAgenda item){
             long startMillis = 0;
         long endMillis = 0;
-
-        ItemAgenda item = adapterNoticias.getItem(position);
 
         //Por alguna razon le suma 1 al numero de mes...
         Calendar beginCal = Calendar.getInstance();

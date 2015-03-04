@@ -15,5 +15,7 @@ buildscript {
 allprojects {
     repositories {
         jcenter()
+        mavenCentral()   // <- *add this
+        maven { url 'https://maven.fabric.io/public' }
     }
 }

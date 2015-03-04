@@ -40,8 +40,10 @@ import com.ruitzei.tuentrada.fragments.FragmentAgenda;
 import com.ruitzei.tuentrada.items.ItemAgenda;
 import com.ruitzei.tuentrada.items.ItemDrawer;
 import com.ruitzei.tuentrada.model.Categorias;
+import com.twitter.sdk.android.tweetcomposer.TweetComposer;
 
 import java.io.File;
+import java.net.URL;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
@@ -50,6 +52,8 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.logging.Handler;
+
+import io.fabric.sdk.android.Fabric;
 
 
 public class MainActivity extends ActionBarActivity{
@@ -84,6 +88,11 @@ public class MainActivity extends ActionBarActivity{
         uiHelper = new UiLifecycleHelper(this, null);
         uiHelper.onCreate(savedInstanceState);
 
+        /*
+        This is for Twitter.
+         */
+        //Fabric.with(this, new TweetComposer());
+
 
         mToolBar = (Toolbar) findViewById(R.id.toolbar);
 
@@ -95,6 +104,7 @@ public class MainActivity extends ActionBarActivity{
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.drawer_list);
         mDrawerListCategories = (ListView) findViewById(R.id.drawer_list_categories);
+        
 
         if( Build.VERSION.SDK_INT >= 21 ) {
             //getActionBar().setIcon(R.drawable.ic_launcher);
@@ -183,6 +193,7 @@ public class MainActivity extends ActionBarActivity{
                     Log.d("List count: " , Integer.toString(mDrawerListCategories.getAdapter().getCount()));
 
                     //5 = Compartir en facebook.
+                    //6 = Compartir en Twitter
                     switch (position){
                         case 0:
                             actualizarVistaAgendaConDatos(Categorias.CONCIERTOS, fragment);
@@ -201,6 +212,9 @@ public class MainActivity extends ActionBarActivity{
                             break;
                         case 5:
                             shareLinkOnFb(LINK_TUENTRADA);
+                            break;
+                        case 6:
+                            //shareLinkOnTwitter(LINK_TUENTRADA);
                             break;
                         default:
                             Log.e("fragment Agenda:" , "coso incorrecto");
@@ -432,5 +446,11 @@ public class MainActivity extends ActionBarActivity{
                 .setApplicationName("TuEntrada")
                 .build();
         uiHelper.trackPendingDialogCall(shareDialog.present());
+    }
+
+    public void shareLinkOnTwitter(String link){
+        TweetComposer.Builder builder = new TweetComposer.Builder(this)
+                .text("Que buena la App de TuEntrada!!" + link);
+        builder.show();
     }
 }

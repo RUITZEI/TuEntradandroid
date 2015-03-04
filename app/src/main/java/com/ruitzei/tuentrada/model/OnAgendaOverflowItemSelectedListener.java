@@ -8,6 +8,7 @@ import android.widget.PopupMenu;
 
 import com.ruitzei.tuentrada.R;
 import com.ruitzei.tuentrada.fragments.FragmentAgenda;
+import com.ruitzei.tuentrada.items.ItemAgenda;
 
 /**
  * Created by RUITZEI on 07/02/2015.
@@ -15,12 +16,12 @@ import com.ruitzei.tuentrada.fragments.FragmentAgenda;
 public class OnAgendaOverflowItemSelectedListener implements View.OnClickListener {
     private Context mContext;
     private FragmentAgenda fragment;
-    private int position;
+    private ItemAgenda itemAgenda;
 
-    public OnAgendaOverflowItemSelectedListener(Context context, FragmentAgenda fragment, int position) {
+    public OnAgendaOverflowItemSelectedListener(Context context, FragmentAgenda fragment, ItemAgenda item) {
         mContext = context;
         this.fragment = fragment;
-        this.position = position;
+        this.itemAgenda = item;
     }
 
     @Override
@@ -60,15 +61,15 @@ public class OnAgendaOverflowItemSelectedListener implements View.OnClickListene
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.agenda_overflow_buy:
-                        fragment.goToBuy(position);
+                        fragment.goToBuy(itemAgenda);
                         return true;
 
                     case R.id.agenda_overflow_details:
-                        fragment.goToDetails(position);
+                        fragment.goToDetails(itemAgenda);
                         return true;
 
                     case R.id.agenda_overflow_schedule:
-                        fragment.addToCalendar(position);
+                        fragment.addToCalendar(itemAgenda);
                         return true;
 
                     default:
