@@ -1,5 +1,7 @@
 package com.ruitzei.tuentrada;
 
+import android.accounts.Account;
+import android.accounts.AccountManager;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -15,6 +17,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -52,11 +55,14 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.logging.Handler;
+import java.util.regex.Pattern;
 
 import io.fabric.sdk.android.Fabric;
 
 
 public class MainActivity extends ActionBarActivity{
+    private static final String TAG = "Actividad Principal";
+
     public ActionBarDrawerToggle mDrawerToggle;
     private ListView mDrawerList;
     private ListView mDrawerListCategories;
@@ -91,7 +97,9 @@ public class MainActivity extends ActionBarActivity{
         /*
         This is for Twitter.
          */
-        //Fabric.with(this, new TweetComposer());
+
+//        TwitterAuthConfig authConfig = new TwitterAuthConfig(TWITTER_KEY, TWITTER_SECRET);
+  //      Fabric.with(this, new Twitter(authConfig));
 
 
         mToolBar = (Toolbar) findViewById(R.id.toolbar);
@@ -144,6 +152,7 @@ public class MainActivity extends ActionBarActivity{
             mImageLoader.init(config);
         }
 
+        //Navigation drawer. Es medio engorroso pero no se podia solucionar de otra manera.
         mDrawerList.setAdapter(new DrawerAdapter(this, ItemDrawer.getHeaderList(), getImageLoader()));
         setListViewHeightBasedOnChildren(mDrawerList);
         mDrawerListCategories.setAdapter(new DrawerAdapter(this, ItemDrawer.getTestingList(), getImageLoader()));
@@ -189,8 +198,6 @@ public class MainActivity extends ActionBarActivity{
                     view.setSelected(true);
                     view.setBackgroundResource(R.color.lightGray);
 
-
-
                     //mDrawerList.getItem
                     Log.d("List count: " , Integer.toString(mDrawerListCategories.getAdapter().getCount()));
 
@@ -201,6 +208,7 @@ public class MainActivity extends ActionBarActivity{
                             actualizarVistaAgendaConDatos(Categorias.PRINCIPAL, fragment);
                             break;
                         case 2:
+                            //Aca pongo un return porque de ahora en mas, en la segunda posicion tengo el header.
                             return;
                         case 3:
                             actualizarVistaAgendaConDatos(Categorias.CONCIERTOS, fragment);
@@ -221,7 +229,7 @@ public class MainActivity extends ActionBarActivity{
                             shareLinkOnFb(LINK_TUENTRADA);
                             break;
                         case 9:
-                            //shareLinkOnTwitter(LINK_TUENTRADA);
+                            shareLinkOnTwitter(LINK_TUENTRADA);
                             break;
                         default:
                             Log.e("fragment Agenda:" , "coso incorrecto");
@@ -231,6 +239,10 @@ public class MainActivity extends ActionBarActivity{
             }
 
         });
+
+        saludarUsuario();
+
+
         if (savedInstanceState == null) {
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             FragmentAgenda fragment = new FragmentAgenda();
@@ -239,6 +251,9 @@ public class MainActivity extends ActionBarActivity{
             transaction.commit();
         }
     }
+
+
+
 
     // Workaround beacuse listview's setSelected doesn't seem to be working at all...
     public void deselectAllDrawerItems() {
@@ -432,7 +447,18 @@ public class MainActivity extends ActionBarActivity{
 
     public void shareLinkOnTwitter(String link){
         TweetComposer.Builder builder = new TweetComposer.Builder(this)
-                .text("Que buena la App de TuEntrada!!" + link);
+                .text("Que buena la App de TuEntrada!! " + link);
         builder.show();
+    }
+
+    public void saludarUsuario(){
+        Pattern emailPattern = Patterns.EMAIL_ADDRESS;
+        Account[] accounts = AccountManager.get(this).getAccounts();
+        for (Account account : accounts) {
+            if (emailPattern.matcher(account.name).matches()) {
+                String possibleEmail = account.name;
+                Log.d(TAG, "Posible mail: " + possibleEmail);
+            }
+        }
     }
 }

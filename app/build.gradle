@@ -1,5 +1,10 @@
 apply plugin: 'com.android.application'
+apply plugin: 'io.fabric'
 
+repositories {
+    mavenCentral()
+    maven { url 'https://maven.fabric.io/public' }
+}
 android {
     compileSdkVersion 21
     buildToolsVersion "21.1.1"
