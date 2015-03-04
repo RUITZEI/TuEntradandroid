@@ -187,6 +187,8 @@ public class MainActivity extends ActionBarActivity{
                     Log.d("Categories Drawer", "item clicked = " + position);
                     deselectAllDrawerItems();
                     view.setSelected(true);
+                    view.setBackgroundResource(R.color.lightGray);
+
 
 
                     //mDrawerList.getItem
@@ -196,24 +198,29 @@ public class MainActivity extends ActionBarActivity{
                     //6 = Compartir en Twitter
                     switch (position){
                         case 0:
-                            actualizarVistaAgendaConDatos(Categorias.CONCIERTOS, fragment);
-                            break;
-                        case 1:
-                            actualizarVistaAgendaConDatos(Categorias.DEPORTES, fragment);
+                            actualizarVistaAgendaConDatos(Categorias.PRINCIPAL, fragment);
                             break;
                         case 2:
-                            actualizarVistaAgendaConDatos(Categorias.FAMILIA, fragment);
-                            break;
+                            return;
                         case 3:
-                            actualizarVistaAgendaConDatos(Categorias.TEATRO, fragment);
+                            actualizarVistaAgendaConDatos(Categorias.CONCIERTOS, fragment);
                             break;
                         case 4:
-                            actualizarVistaAgendaConDatos(Categorias.EXPOSICIONES, fragment);
+                            actualizarVistaAgendaConDatos(Categorias.DEPORTES, fragment);
                             break;
                         case 5:
-                            shareLinkOnFb(LINK_TUENTRADA);
+                            actualizarVistaAgendaConDatos(Categorias.FAMILIA, fragment);
                             break;
                         case 6:
+                            actualizarVistaAgendaConDatos(Categorias.TEATRO, fragment);
+                            break;
+                        case 7:
+                            actualizarVistaAgendaConDatos(Categorias.EXPOSICIONES, fragment);
+                            break;
+                        case 8:
+                            shareLinkOnFb(LINK_TUENTRADA);
+                            break;
+                        case 9:
                             //shareLinkOnTwitter(LINK_TUENTRADA);
                             break;
                         default:
@@ -224,26 +231,6 @@ public class MainActivity extends ActionBarActivity{
             }
 
         });
-
-        mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                final FragmentAgenda fragment = (FragmentAgenda)getSupportFragmentManager().findFragmentByTag("FRAGMENT_AGENDA");
-                if (fragment.isVisible()) {
-                    Log.d("Header Drawer click: ", "item clicked = " + position);
-                    deselectAllDrawerItems();
-                    view.setSelected(true);
-                    Log.d("List count: ", Integer.toString(mDrawerList.getAdapter().getCount()));
-
-                    if (position == 0) {
-                        actualizarVistaAgendaConDatos(Categorias.PRINCIPAL, fragment);
-                    }
-                }
-                mDrawerLayout.closeDrawer(Gravity.LEFT);
-            }
-        });
-
-
         if (savedInstanceState == null) {
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             FragmentAgenda fragment = new FragmentAgenda();
@@ -253,17 +240,12 @@ public class MainActivity extends ActionBarActivity{
         }
     }
 
+    // Workaround beacuse listview's setSelected doesn't seem to be working at all...
     public void deselectAllDrawerItems() {
         //Primera lista (novedades + todas)
-        for (int i = 0; i < mDrawerList.getChildCount(); i++) {
-            mDrawerList.getChildAt(i).setSelected(false);
-        }
-
-        //Segunda lista: eventos, etc...
         for (int i = 0; i < mDrawerListCategories.getChildCount(); i++) {
-            mDrawerListCategories.getChildAt(i).setSelected(false);
+            mDrawerListCategories.getChildAt(i).setBackgroundResource(R.color.white);
         }
-
     }
 
     @Override protected void onPostCreate(Bundle savedInstance){

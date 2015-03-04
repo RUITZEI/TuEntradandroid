@@ -16,7 +16,7 @@
 
     <color name="button_background">#e5e5e5</color>
     <color name ="material_blue">#279F95</color>
-    <color name ="transparent">#80ffffff</color>
+    <color name ="transparent">#00ffffff</color>
     <color name ="overflowPressed">#ffffff</color>
     <color name="cyan"> @android:color/holo_blue_dark </color>
     <color name="TuEntradaMain"> #FEC649 </color>

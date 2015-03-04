@@ -57,18 +57,30 @@ public class DrawerAdapter extends ArrayAdapter<Object> {
 
     public View getView(int position, View convertView, ViewGroup parent){
         PlaceHolder placeHolder;
+        ItemDrawer item = items.get(position);
         if (convertView == null){
-            convertView = View.inflate(contexto,R.layout.drawer_item ,null);
-            placeHolder = PlaceHolder.generate(convertView);
-            convertView.setTag(placeHolder);
+            //Checkeo si me viene un header o no.
+            if (item.isHeader()){     //Inflo el layout del header
+                convertView = View.inflate(contexto,R.layout.nav_header_item ,null);
+                placeHolder = PlaceHolder.generate(convertView);
+                convertView.setTag(placeHolder);
+            }else {                  // no es un header, lo trato normalmente
+                convertView = View.inflate(contexto,R.layout.drawer_item ,null);
+                placeHolder = PlaceHolder.generate(convertView);
+                convertView.setTag(placeHolder);
+            }
+
         } else {
             placeHolder = (PlaceHolder)convertView.getTag();
         }
 
-        placeHolder.name.setText(items.get(position).getName());
-        mImageLoader.displayImage(items.get(position).getImageLink(), placeHolder.image);
-
-        //if (position == 1) placeHolder.name.setTextColor(contexto.getResources().getColor(R.color.red));
+        //Si no es header hacemos tdo como antes.
+        if (!item.isHeader()){
+            placeHolder.name.setText(items.get(position).getName());
+            mImageLoader.displayImage(items.get(position).getImageLink(), placeHolder.image);
+        }
+        //  todo: Si hacen falta agregar mas headers, habria que ponerle un ID en el layout del header
+        //  todo: usando el mismo nombre dado en el PlaceHolder.
 
         return convertView;
     }

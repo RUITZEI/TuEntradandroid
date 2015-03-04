@@ -12,10 +12,20 @@ public class ItemDrawer {
 
     private String name;
     private String imageLink;
+    private boolean isHeader;
 
     public ItemDrawer(String name, String imageLink){
         this.name = name;
         this.imageLink = imageLink;
+        this.isHeader = false;
+    }
+
+    public void makeItemHeader(){
+        this.isHeader = true;
+    }
+
+    public boolean isHeader(){
+        return this.isHeader;
     }
 
     public String getName(){
@@ -37,6 +47,15 @@ public class ItemDrawer {
         String exposiciones = "drawable://" + R.drawable.ic_exposiciones;
         String facebook = "drawable://" + R.drawable.ic_launcher;
         String twitter = "drawable://" + R.drawable.ic_launcher;
+        String principal = "drawable://" + R.drawable.ic_principal;
+        String destacados = "drawable://" + R.drawable.ic_destacado;
+
+        darwerList.add(new ItemDrawer("Principal", principal));
+        darwerList.add(new ItemDrawer("Destacados", destacados));
+
+        ItemDrawer header = new ItemDrawer("", "");
+        header.makeItemHeader();
+        darwerList.add(header);
 
         darwerList.add(new ItemDrawer("Conciertos", conciertos));
         darwerList.add(new ItemDrawer("Deportes", deportes));
@@ -54,10 +73,10 @@ public class ItemDrawer {
         List<ItemDrawer> darwerList = new ArrayList<ItemDrawer>();
 
         String principal = "drawable://" + R.drawable.ic_principal;
-        String destacados = "drawable://" + R.drawable.ic_destacado;
+        //String destacados = "drawable://" + R.drawable.ic_destacado;
 
         darwerList.add(new ItemDrawer("Principal", principal));
-        darwerList.add(new ItemDrawer("Destacados", destacados));
+//        darwerList.add(new ItemDrawer("Destacados", destacados));
 
         return darwerList;
     }
