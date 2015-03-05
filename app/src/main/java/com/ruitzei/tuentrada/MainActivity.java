@@ -46,15 +46,10 @@ import com.ruitzei.tuentrada.model.Categorias;
 import com.twitter.sdk.android.tweetcomposer.TweetComposer;
 
 import java.io.File;
-import java.net.URL;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.logging.Handler;
 import java.util.regex.Pattern;
 
 import io.fabric.sdk.android.Fabric;
@@ -93,14 +88,6 @@ public class MainActivity extends ActionBarActivity{
          */
         uiHelper = new UiLifecycleHelper(this, null);
         uiHelper.onCreate(savedInstanceState);
-
-        /*
-        This is for Twitter.
-         */
-
-//        TwitterAuthConfig authConfig = new TwitterAuthConfig(TWITTER_KEY, TWITTER_SECRET);
-  //      Fabric.with(this, new Twitter(authConfig));
-
 
         mToolBar = (Toolbar) findViewById(R.id.toolbar);
 
@@ -192,7 +179,7 @@ public class MainActivity extends ActionBarActivity{
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //Tengo que estar seguro de que el fragment esta ahi visible...
                 final FragmentAgenda fragment = (FragmentAgenda)getSupportFragmentManager().findFragmentByTag("FRAGMENT_AGENDA");
-                if (fragment.isVisible()){
+                if (fragment.isVisible() && existeAgenda()){
                     Log.d("Categories Drawer", "item clicked = " + position);
                     deselectAllDrawerItems();
                     view.setSelected(true);
