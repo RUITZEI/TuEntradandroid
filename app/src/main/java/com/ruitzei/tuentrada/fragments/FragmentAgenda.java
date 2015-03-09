@@ -234,24 +234,35 @@ public class FragmentAgenda extends Fragment implements SwipeRefreshLayout.OnRef
     }
 
     public void goToBuy(ItemAgenda item){
-        Log.d("FECHA COMUN>" , item.getFecha());
-        Bundle args = new Bundle();
+        boolean tieneAsientosDisponibles = item.getDisponibilidad() != 'S';
+        //No se puede comprar si los tickets toadvia no salieron a la venta
+        boolean puedenComprar = (item.getFechaDeVenta().length() == 0);
 
-        String link = item.getLink();
-        String linkMobile = link.substring(0, link.indexOf("seat")) + "mobile/" + link.substring(link.indexOf("seat"), link.length());
+        if (tieneAsientosDisponibles && puedenComprar){
+            Log.d("FECHA COMUN>" , item.getFecha());
+            Bundle args = new Bundle();
 
-        //Necesito ambos links porque si comparto por facebook voy a necesitar el link a la version desktop.
-        args.putString("link", link);
-        args.putString("linkMobile", linkMobile);
+            String link = item.getLink();
+            String linkMobile = link.substring(0, link.indexOf("seat")) + "mobile/" + link.substring(link.indexOf("seat"), link.length());
 
-        Fragment fragment = new FragmentWebView();
-        fragment.setArguments(args);
-        FragmentManager fm = actividadPrincipal.getSupportFragmentManager();
-        fm.beginTransaction()
-                .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right)
-                .replace(R.id.container, fragment)
-                .addToBackStack("Fragback")
-                .commit();
+            //Necesito ambos links porque si comparto por facebook voy a necesitar el link a la version desktop.
+            args.putString("link", link);
+            args.putString("linkMobile", linkMobile);
+
+            Fragment fragment = new FragmentWebView();
+            fragment.setArguments(args);
+            FragmentManager fm = actividadPrincipal.getSupportFragmentManager();
+            fm.beginTransaction()
+                    .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right)
+                    .replace(R.id.container, fragment)
+                    .addToBackStack("Fragback")
+                    .commit();
+        } else if (!tieneAsientosDisponibles){
+            Toast.makeText(getActivity(), "No Asientos Disponibles", Toast.LENGTH_LONG).show();
+        } else if (!puedenComprar){
+            Toast.makeText(getActivity(), "no salieron a la venta" + " " + item.getFechaDeVentaConvertida(), Toast.LENGTH_LONG).show();
+        }
+
     }
 
     public void addToCalendar(ItemAgenda item){

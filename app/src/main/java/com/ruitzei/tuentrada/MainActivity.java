@@ -181,9 +181,6 @@ public class MainActivity extends ActionBarActivity{
                 final FragmentAgenda fragment = (FragmentAgenda)getSupportFragmentManager().findFragmentByTag("FRAGMENT_AGENDA");
                 if (fragment.isVisible() && existeAgenda()){
                     Log.d("Categories Drawer", "item clicked = " + position);
-                    deselectAllDrawerItems();
-                    view.setSelected(true);
-                    view.setBackgroundResource(R.color.lightGray);
 
                     //mDrawerList.getItem
                     Log.d("List count: " , Integer.toString(mDrawerListCategories.getAdapter().getCount()));
@@ -222,6 +219,9 @@ public class MainActivity extends ActionBarActivity{
                             Log.e("fragment Agenda:" , "coso incorrecto");
                     }
                 }
+                deselectAllDrawerItems();
+                view.setSelected(true);
+                view.setBackgroundResource(R.color.lightGray);
                 mDrawerLayout.closeDrawer(Gravity.LEFT);
             }
 
