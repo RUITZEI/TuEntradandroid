@@ -144,7 +144,7 @@ public class FragmentAgenda extends Fragment implements SwipeRefreshLayout.OnRef
             case R.id.action_search:
                 Log.d(TAG, "Action Search pressed");
                 if (actividadPrincipal.existeAgenda()){
-                    mSearchView.setI conified(true);
+                    mSearchView.setIconified(true);
                     mSearchView.setOnQueryTextListener(queryTextListener);
                 }
 
