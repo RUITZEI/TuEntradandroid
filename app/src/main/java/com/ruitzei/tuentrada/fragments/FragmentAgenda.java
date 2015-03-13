@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ruitzei.tuentrada.MainActivity;
@@ -30,7 +31,6 @@ import com.ruitzei.tuentrada.adapters.CustomListAdapter;
 
 import java.util.Calendar;
 import java.util.HashMap;
-import java.util.Hashtable;
 import java.util.List;
 
 /**
@@ -38,8 +38,11 @@ import java.util.List;
  */
 
 public class FragmentAgenda extends Fragment implements SwipeRefreshLayout.OnRefreshListener, OnDownloadCompleted {
-
     private static final String TAG = "Fragment Agenda";
+    private static final String MSG_NOINTERNET = "Hay problemas para descargar la agenda. \n \nDeslizá para abajo para volver a intentar";
+    private static final String MSG_NOEVENTS = "No se encontraron eventos para la categoría seleccionada";
+
+
     private CustomListAdapter adapterNoticias;
     private MainActivity actividadPrincipal;
     private ListView lista;
@@ -51,6 +54,10 @@ public class FragmentAgenda extends Fragment implements SwipeRefreshLayout.OnRef
     private View mSpinner;
     private HashMap<String, List<ItemAgenda>> map;
     private SwipeRefreshLayout mRefreshLayout;
+
+    //Views para mostrar cuando no hay internet o eventos para cierta categoria.
+    private View errorLayout;
+    private TextView errorMsg;
 
     private static final String RSS_TUENTRADA = "https://www.tuentrada.com/online/feedxml.asp";
 
@@ -69,6 +76,9 @@ public class FragmentAgenda extends Fragment implements SwipeRefreshLayout.OnRef
 
         setHasOptionsMenu(true);
 
+        errorLayout = view.findViewById(R.id.layout_no_events);
+        errorMsg = (TextView) view.findViewById(R.id.error_msg);
+
         if (actividadPrincipal.existeAgenda()){
             mostrarLista();
         }else{
@@ -77,6 +87,7 @@ public class FragmentAgenda extends Fragment implements SwipeRefreshLayout.OnRef
         }
 
         agregarListenerLista();
+        errorLayout.setVisibility(View.GONE);
 
         return view;
     }
@@ -132,8 +143,11 @@ public class FragmentAgenda extends Fragment implements SwipeRefreshLayout.OnRef
         switch (item.getItemId()) {
             case R.id.action_search:
                 Log.d(TAG, "Action Search pressed");
-                mSearchView.setIconified(true);
-                mSearchView.setOnQueryTextListener(queryTextListener);
+                if (actividadPrincipal.existeAgenda()){
+                    mSearchView.setI conified(true);
+                    mSearchView.setOnQueryTextListener(queryTextListener);
+                }
+
                 break;
             default:
                 return super.onOptionsItemSelected(item);
@@ -144,6 +158,7 @@ public class FragmentAgenda extends Fragment implements SwipeRefreshLayout.OnRef
     @Override
     public void onRefresh(){
         Log.d(TAG, "Refreshing...");
+        hideErrorLayout();
         if (!actividadPrincipal.existeAgenda()){
             new DescargarAgenda(this).execute(RSS_TUENTRADA);
         }else{
@@ -166,13 +181,15 @@ public class FragmentAgenda extends Fragment implements SwipeRefreshLayout.OnRef
 
     public void cambiarAgenda(String claveDiccionario){
         actividadPrincipal.setAgenda(map.get(claveDiccionario));
+
+        if (map.get(claveDiccionario).size() == 0 ) showNoEventsError();
     }
 
     @Override
     public void onDownloadFailed(){
         mSpinner.setVisibility(View.GONE);
         if (mRefreshLayout.isRefreshing()) mRefreshLayout.setRefreshing(false);
-
+        showNoInternetError();
         //TODO Should probably add a view to let the user know smth happened.
     }
 
@@ -303,5 +320,19 @@ public class FragmentAgenda extends Fragment implements SwipeRefreshLayout.OnRef
             return false;
         }
     };
+
+    public void hideErrorLayout(){
+        if (errorLayout.getVisibility() == View.VISIBLE) errorLayout.setVisibility(View.GONE);
+    }
+
+    public void showNoEventsError(){
+        errorMsg.setText(MSG_NOEVENTS);
+        errorLayout.setVisibility(View.VISIBLE);
+    }
+
+    public void showNoInternetError(){
+        errorMsg.setText(MSG_NOINTERNET);
+        errorLayout.setVisibility(View.VISIBLE);
+    }
 }
 

@@ -30,4 +30,7 @@
             android:layout_height="wrap_content"
             android:indeterminate="true"/>
     </RelativeLayout>
+
+    <include layout="@layout/layout_no_events" android:id="@+id/layout_no_events"/>
+
 </FrameLayout>

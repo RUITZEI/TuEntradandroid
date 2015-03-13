@@ -352,6 +352,7 @@ public class MainActivity extends ActionBarActivity{
     public void actualizarVistaAgendaConDatos(final String clave, final FragmentAgenda fragment){
         agenda = new ArrayList<ItemAgenda>();
         fragment.mostrarLista();
+        fragment.hideErrorLayout();
         fragment.mostrarSpinner();
         Timer timer = new Timer();
         timer.schedule(new TimerTask() {

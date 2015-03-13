@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <TextView
+        android:textColor="@color/grayText"
+        android:gravity="center"
+        android:text="Hay problemas para descargar la agenda. \n \nDeslizá para abajo para volver a intentar"
+        android:textSize="25sp"
+        android:layout_gravity="center"
+        android:padding="40dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+</LinearLayout>
