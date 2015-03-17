@@ -138,9 +138,14 @@ public class FragmentWebView extends Fragment{
                 startActivity(browserIntent);
                 break;
 
-            case R.id.action_share:
+            case R.id.action_share_fb:
                 //Comparto el link DESKTOP en el muro.
                 actividadPrincipal.shareLinkOnFb(this.link);
+                break;
+            case R.id.action_share_tw:
+                //Comparto el link DESKTOP en el muro.
+                actividadPrincipal.shareLinkOnTwitter(this.link);
+                break;
             default:
                 return super.onOptionsItemSelected(item);
         }

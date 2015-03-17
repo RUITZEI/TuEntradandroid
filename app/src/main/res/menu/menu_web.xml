@@ -12,8 +12,13 @@
         android:orderInCategory="100"
         app:showAsAction="never"/>
 
-    <item android:id="@+id/action_share"
+    <item android:id="@+id/action_share_fb"
         android:title="Compartir en Facebook"
+        android:orderInCategory="100"
+        app:showAsAction="never"/>
+
+    <item android:id="@+id/action_share_tw"
+        android:title="Compartir en  Twitter"
         android:orderInCategory="100"
         app:showAsAction="never"/>
 </menu>

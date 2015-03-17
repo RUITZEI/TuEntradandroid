@@ -80,6 +80,7 @@ public class FragmentDetails extends Fragment implements OnScrollChangedCallback
             public void onClick(View v) {
                 Bundle args = new Bundle();
                 args.putString("link", getArguments().getString("link"));
+                args.putString("linkMobile", getArguments().getString("linkMobile"));
                 Fragment fragment = new FragmentWebView();
                 fragment.setArguments(args);
                 FragmentManager fm = actividadPrincipal.getSupportFragmentManager();

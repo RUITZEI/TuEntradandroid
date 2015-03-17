@@ -222,7 +222,8 @@ public class FragmentAgenda extends Fragment implements SwipeRefreshLayout.OnRef
             String linkMobile = link.substring(0, link.indexOf("seat")) + "mobile/" + link.substring(link.indexOf("seat"), link.length());
 
             Bundle args = new Bundle();
-            args.putString("link", linkMobile);
+            args.putString("link", link);
+            args.putString("linkMobile", linkMobile);
             args.putString("image", item.getLogoId());
             args.putString("nombre", item.getNombre());
             args.putString("fecha", item.getFechaConvertida());

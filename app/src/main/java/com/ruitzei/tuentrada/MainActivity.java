@@ -218,11 +218,12 @@ public class MainActivity extends ActionBarActivity{
                         default:
                             Log.e("fragment Agenda:" , "coso incorrecto");
                     }
+                    deselectAllDrawerItems();
+                    view.setSelected(true);
+                    view.setBackgroundResource(R.color.lightGray);
+                    mDrawerLayout.closeDrawer(Gravity.LEFT);
                 }
-                deselectAllDrawerItems();
-                view.setSelected(true);
-                view.setBackgroundResource(R.color.lightGray);
-                mDrawerLayout.closeDrawer(Gravity.LEFT);
+
             }
 
         });
@@ -435,7 +436,7 @@ public class MainActivity extends ActionBarActivity{
 
     public void shareLinkOnTwitter(String link){
         TweetComposer.Builder builder = new TweetComposer.Builder(this)
-                .text("Que buena la App de TuEntrada!! " + link);
+                .text("Quien me acompaña? " + link);
         builder.show();
     }
 
