@@ -23,6 +23,7 @@ import android.widget.Toast;
 
 import com.ruitzei.tuentrada.MainActivity;
 import com.ruitzei.tuentrada.R;
+import com.ruitzei.tuentrada.adapters.EventosDestacadosAdapter;
 import com.ruitzei.tuentrada.items.ItemAgenda;
 import com.ruitzei.tuentrada.model.Categorias;
 import com.ruitzei.tuentrada.model.DescargarAgenda;
@@ -94,11 +95,25 @@ public class FragmentAgenda extends Fragment implements SwipeRefreshLayout.OnRef
 
 
     public void mostrarLista(){
-        adapterNoticias = new CustomListAdapter(actividadPrincipal.getmToolBar().getContext(),actividadPrincipal.getAgenda(), actividadPrincipal.getImageLoader(), actividadPrincipal.getEventPhotoOptions(),this);
-        lista.setAdapter(adapterNoticias);
+
+        if (actividadPrincipal.getUltimaPosicionSeleccionada() == 1){
+            EventosDestacadosAdapter destacadosAdapter = new EventosDestacadosAdapter(actividadPrincipal.getmToolBar().getContext(),actividadPrincipal.getAgenda(), actividadPrincipal.getImageLoader(), actividadPrincipal.getEventPhotoOptions(),this);
+            lista.setAdapter(destacadosAdapter);
+        } else {
+            adapterNoticias = new CustomListAdapter(actividadPrincipal.getmToolBar().getContext(),actividadPrincipal.getAgenda(), actividadPrincipal.getImageLoader(), actividadPrincipal.getEventPhotoOptions(),this);
+            lista.setAdapter(adapterNoticias);
+        }
 
         agregarListenerLista();
     }
+
+    public void mostrarDestacados(){
+        EventosDestacadosAdapter destacadosAdapter = new EventosDestacadosAdapter(actividadPrincipal.getmToolBar().getContext(),actividadPrincipal.getAgenda(), actividadPrincipal.getImageLoader(), actividadPrincipal.getEventPhotoOptions(),this);
+        lista.setAdapter(destacadosAdapter);
+
+        agregarListenerLista();
+    }
+
 
 
     /**
@@ -109,7 +124,8 @@ public class FragmentAgenda extends Fragment implements SwipeRefreshLayout.OnRef
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
-                goToBuy(adapterNoticias.getItem(position));
+                //goToBuy(adapterNoticias.getItem(position));
+                goToBuy((ItemAgenda) lista.getAdapter().getItem(position));
             }
         });
     }

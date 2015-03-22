@@ -65,6 +65,7 @@ public class MainActivity extends ActionBarActivity{
     private Toolbar mToolBar;
     private ImageLoader mImageLoader;
     private DisplayImageOptions mEventPhotoOptions;
+    private int ultimaPosicionSeleccionada = -1;
 
     private List<ItemAgenda> agenda;
 
@@ -165,6 +166,10 @@ public class MainActivity extends ActionBarActivity{
             @Override
             public void onDrawerStateChanged(int newState) {
                 if (newState == DrawerLayout.STATE_DRAGGING) {
+                    //La primera vez que abro el nav. drawer, muestro el primer item seleccionado.
+                    if (ultimaPosicionSeleccionada < 0){
+                        selectFirstItem();
+                    }
                 }
             }
         };
@@ -181,7 +186,7 @@ public class MainActivity extends ActionBarActivity{
                 final FragmentAgenda fragment = (FragmentAgenda)getSupportFragmentManager().findFragmentByTag("FRAGMENT_AGENDA");
                 if (fragment.isVisible() && existeAgenda()){
                     Log.d("Categories Drawer", "item clicked = " + position);
-
+                    ultimaPosicionSeleccionada = position;
                     //mDrawerList.getItem
                     Log.d("List count: " , Integer.toString(mDrawerListCategories.getAdapter().getCount()));
 
@@ -190,6 +195,9 @@ public class MainActivity extends ActionBarActivity{
                     switch (position){
                         case 0:
                             actualizarVistaAgendaConDatos(Categorias.PRINCIPAL, fragment);
+                            break;
+                        case 1:
+                            mostrarDestacados(fragment);
                             break;
                         case 2:
                             //Aca pongo un return porque de ahora en mas, en la segunda posicion tengo el header.
@@ -228,8 +236,10 @@ public class MainActivity extends ActionBarActivity{
 
         });
 
+        //Me muestra todos los mails registrados en el telefono.
         saludarUsuario();
 
+        //Dejo seleccionado el primer item del navigation drawer.
 
         if (savedInstanceState == null) {
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
@@ -247,8 +257,13 @@ public class MainActivity extends ActionBarActivity{
     public void deselectAllDrawerItems() {
         //Primera lista (novedades + todas)
         for (int i = 0; i < mDrawerListCategories.getChildCount(); i++) {
-            mDrawerListCategories.getChildAt(i).setBackgroundResource(R.color.white);
+            mDrawerListCategories.getChildAt(i).setBackgroundResource(R.drawable.chat_list_selector);
         }
+    }
+
+    public void selectFirstItem(){
+        ultimaPosicionSeleccionada = 0;
+        mDrawerListCategories.getChildAt(0).setBackgroundResource(R.color.lightGray);
     }
 
     @Override protected void onPostCreate(Bundle savedInstance){
@@ -369,7 +384,27 @@ public class MainActivity extends ActionBarActivity{
                 });
             }
         }, 500);
+    }
 
+    public void mostrarDestacados(final FragmentAgenda fragment){
+        agenda = new ArrayList<ItemAgenda>();
+        fragment.mostrarLista();
+        fragment.hideErrorLayout();
+        fragment.mostrarSpinner();
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        fragment.cambiarAgenda(Categorias.CONCIERTOS);
+                        fragment.mostrarDestacados();
+                        fragment.ocultarSpinner();
+                    }
+                });
+            }
+        }, 500);
     }
 
     @Override
@@ -449,5 +484,13 @@ public class MainActivity extends ActionBarActivity{
                 Log.d(TAG, "Posible mail: " + possibleEmail);
             }
         }
+    }
+
+    public int getUltimaPosicionSeleccionada() {
+        return ultimaPosicionSeleccionada;
+    }
+
+    public void setUltimaPosicionSeleccionada(int ultimaPosicionSeleccionada) {
+        this.ultimaPosicionSeleccionada = ultimaPosicionSeleccionada;
     }
 }
