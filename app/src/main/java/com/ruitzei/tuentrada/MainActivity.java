@@ -107,7 +107,7 @@ public class MainActivity extends ActionBarActivity{
             getSupportActionBar().setDisplayShowHomeEnabled(false);
             getSupportActionBar().setDisplayUseLogoEnabled(false);
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            getWindow().setStatusBarColor( getResources().getColor(R.color.darkerGray) );
+            //getWindow().setStatusBarColor( getResources().getColor(R.color.darkYellow) );
         } else {
             //getActionBar().setIcon(R.drawable.ic_launcher);
             getSupportActionBar().setDisplayShowHomeEnabled(true);

@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="TuEntradaTheme" parent="Theme.AppCompat.NoActionBar">
+    <style name="TuEntradaTheme" parent="TuEntradaTheme.Base"/>
 
+    <style name="TuEntradaTheme.Base" parent="Theme.AppCompat">
+        <item name="android:windowNoTitle">true</item>
         <!-- Main theme colors -->
         <!--   your app branding color for the app bar -->
         <item name="colorPrimary">@color/yellow</item>
@@ -12,15 +14,17 @@
 
         <item name="android:statusBarColor">@color/darkYellow</item>
 
+        <item name="windowActionBar">false</item>
+
         <!--   For using a Toolbar Instead
                 <item name="windowActionBar">false</item>
 
 
         -->
         <item name="android:windowActionModeOverlay">true</item>
-        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
-        <item name="android:actionBarStyle" >@style/XapoTheme.ActionBarStyle</item>
+        <item name="android:actionBarStyle" >@style/TuEntradaTheme.ActionBarStyle</item>
 
+        <item name="android:popupMenuStyle">@style/PopupMenu</item>
         <item name="android:textAppearanceSmallPopupMenu">@style/PopupMenuTextAppearanceLarge</item>
         <item name="android:textAppearanceLargePopupMenu">@style/PopupMenuTextAppearanceLarge</item>
 
@@ -32,7 +36,7 @@
         <item name="theme">@style/ThemeOverlay.AppCompat.ActionBar</item>
     </style>
 
-    <style name="XapoTheme.ActionBarStyle" parent="android:Widget.Material.ActionBar.Solid">
+    <style name="TuEntradaTheme.ActionBarStyle" parent="Widget.AppCompat.ActionBar.Solid">
         <item name="android:icon">@drawable/ic_launcher</item>
     </style>
 
